@@ -1,4 +1,4 @@
-import {Space} from '../../classes/space.js';
+import {Space} from '../classes/space.js';
 
 let space = [];
 let saveSpace = true;   //Used to define if alterations was made.
@@ -30,7 +30,7 @@ listSpace.addEventListener('keydown', navigate);
 window.addEventListener('beforeunload', unload)
 
 //### GET HEADER ###
-fetch('../header.html')
+fetch('header.html')
     .then(response => response.text())
     .then(data => {
         const pageHeader = document.querySelector('div#pageHeader')
