@@ -1,4 +1,6 @@
+//import { response } from 'express';
 import {Space} from '../classes/space.js';
+//import { insertSpace } from '../../src/database.js';
 
 let space = [];
 let saveSpace = true;   //Used to define if alterations was made.
@@ -153,7 +155,34 @@ function navigate(event) {
 }
 
 function save() {
-    //Here will stay the save code to BD.
+    (async()=>{
+        console.log('Inserting spaces to database')
+        //For now, change id manually
+        let id = 4
+        let name = space[0].space
+        let type = space[0].type
+        let perimeter = space[0].perimeter
+        let area = space[0].area
+
+
+        await fetch('/save-space',{
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify({id, name, type, perimeter, area}),
+        })
+            .then((response)=>response.json())
+            .then((data)=>{
+                console.log(data.message)
+            })
+            .catch((error)=>{
+                console.error('Some error happen', error)
+            })
+
+        console.log('Insert: finished')
+    })()
+
     saveSpace = true;
 }
 
