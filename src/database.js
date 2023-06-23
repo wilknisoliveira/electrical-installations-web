@@ -7,7 +7,7 @@ const connection = mysql.createConnection({
     database: process.env.DB_NAME,
 })
 
-function insertSpace(id, name, type, perimeter, area){
+function createSpace(id, name, type, perimeter, area){
     return new Promise((resolve, reject)=>{
         connection.query('INSERT INTO space (id_space, name_space, type_space, perimeter_space, area_space) VALUES(?, ?, ?, ?, ?)', [id, name, type, perimeter, area], (error, results)=>{
             if(error){
@@ -19,6 +19,17 @@ function insertSpace(id, name, type, perimeter, area){
     })
 }
 
+function getSpace(){
+    return new Promise((resolve, reject)=>{
+        connection.query('SELECT * FROM space', (error, results)=>{
+            if(error){
+                reject(error);
+            }else{
+                resolve(results);
+            }
+        })
+    })
+}
 
 
-module.exports = {insertSpace}
+module.exports = {createSpace, getSpace}

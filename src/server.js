@@ -20,15 +20,25 @@ app.get('/spaces', (req,res)=>{
     res.sendFile(path.join(__dirname, '../public', 'spaces.html'))
 })
 
-app.post('/save-space', (req,res)=>{
+app.post('/create-space', (req,res)=>{
     const{id, name, type, perimeter, area} = req.body
 
-    database.insertSpace(id, name, type, perimeter, area)
+    database.createSpace(id, name, type, perimeter, area)
         .then(()=>{
-            res.status(200).json({message: 'Spaces saved successfully'})
+            res.status(200).json({message: 'Spaces created successfully'})
         })
         .catch(()=>{
-            res.status(500).json({error: 'Some error ocurred while saving Spaces'})
+            res.status(500).json({error: 'Some error ocurred while creating Spaces'})
+        })
+})
+
+app.get('/get-space', (req,res)=>{
+    database.getSpace()
+        .then((rows)=>{
+            res.status(200).json(rows)
+        })
+        .catch(()=>{
+            res.status(500).json({error: 'Erro while getting spaces'})
         })
 })
 

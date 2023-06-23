@@ -1,35 +1,28 @@
-//import { response } from 'express';
-import {Space} from '../classes/space.js';
-//import { insertSpace } from '../../src/database.js';
+import {Space} from '../classes/space.js'
 
-let space = [];
-let saveSpace = true;   //Used to define if alterations was made.
-
+let space = []
 
 //### FOR SCREEN OBJECTS ###
-let listSpace = document.querySelector('select#listSpace');
+let listSpace = document.querySelector('select#listSpace')
 
-let spaceInput = document.querySelector('input#space');
-let typeInput = document.querySelector('input#type');
-let areaInput = document.querySelector('input#area');
-let perimeterInput = document.querySelector('input#perimeter');
+let spaceInput = document.querySelector('input#space')
+let typeInput = document.querySelector('input#type')
+let areaInput = document.querySelector('input#area')
+let perimeterInput = document.querySelector('input#perimeter')
 
 //### FOR EVENT LISTENER ###
-let addBtn  = document.querySelector('button#addBtn');
-let deleteBtn = document.querySelector('button#deleteBtn');
-let orderBtn = document.querySelector('button#orderBtn');
-let changeBtn = document.querySelector('button#changeBtn');
+let addBtn  = document.querySelector('button#addBtn')
+let deleteBtn = document.querySelector('button#deleteBtn')
+let orderBtn = document.querySelector('button#orderBtn')
+let changeBtn = document.querySelector('button#changeBtn')
 
-addBtn.addEventListener('click', getInputs);
-deleteBtn.addEventListener('click', deleteSpace);
-orderBtn.addEventListener('click', order);
-changeBtn.addEventListener('click', change);
-saveBtn.addEventListener('click', save);
+addBtn.addEventListener('click', getInputs)
+deleteBtn.addEventListener('click', deleteSpace)
+orderBtn.addEventListener('click', order)
+changeBtn.addEventListener('click', change)
 
-listSpace.addEventListener('click', selectSpace);
-listSpace.addEventListener('keydown', navigate);
-
-window.addEventListener('beforeunload', unload)
+listSpace.addEventListener('click', selectSpace)
+listSpace.addEventListener('keydown', navigate)
 
 //### GET HEADER ###
 fetch('header.html')
@@ -39,17 +32,59 @@ fetch('header.html')
         pageHeader.innerHTML = data;
     }) 
 
+getDB()
+
+function getDB(){
+    let spaceDB
+    (async()=>{
+        console.log('Getting spaces from database')
+
+        await fetch('/get-space')
+            .then((response)=>response.json())
+            .then((data)=>{
+                spaceDB = Object.values(data)
+            })
+            .catch((error)=>{
+                console.error('Some error happen', error)
+            })
+        
+        for (let index = 0; index < spaceDB.length; index++) {
+            space.push(new Space(
+                spaceDB[index].id_space, 
+                spaceDB[index].name_space, 
+                spaceDB[index].type_space, 
+                spaceDB[index].area_space, 
+                spaceDB[index].perimeter_space
+            ));
+        }
+        insertSelect();
+    })()
+    
+}
+
 
 //### FUNCTIONS FOR BUTTONS ###
 //Get the inputs entered by user
 function getInputs() {
     //Add the inputs in the space array on last position
-    space.push(new Space(spaceInput.value, typeInput.value, areaInput.value, perimeterInput.value));
-    saveSpace = false;
+    let spaceId = 0
+    let lastId = []
+    if (space.length == null)
+        spaceId = 0
+    else{
+        for (let index = 0; index < space.length; index++)
+            lastId.push(space[index].id)
+            
+        spaceId = Math.max(lastId) + 1
+    }
+
+    space.push(new Space(spaceId, spaceInput.value, typeInput.value, areaInput.value, perimeterInput.value));
     insertSelect();
 
 
     clear();
+
+    createDB();
 }
 
 function order() {
@@ -64,7 +99,6 @@ function order() {
         else
             return 0;
     });
-    saveSpace = false;
 
     insertSelect();
 
@@ -78,7 +112,6 @@ function change() {
     space[selectedItem].type = typeInput.value;
     space[selectedItem].area = areaInput.value;
     space[selectedItem].perimeter = perimeterInput.value;
-    saveSpace = false;
 
     clear();
 }
@@ -89,7 +122,6 @@ function deleteSpace() {
 
     //javaScript allow to delete the vector position. In this case, it's not necessary prevent null vector.
     space.splice(selected, 1);
-    saveSpace = false;
 
     insertSelect();
     
@@ -154,18 +186,18 @@ function navigate(event) {
     }
 }
 
-function save() {
+function createDB() {
     (async()=>{
-        console.log('Inserting spaces to database')
-        //For now, change id manually
-        let id = 4
-        let name = space[0].space
-        let type = space[0].type
-        let perimeter = space[0].perimeter
-        let area = space[0].area
+        console.log('Creating space to database')
+
+        let id = space[space.length-1].id
+        let name = space[space.length-1].space
+        let type = space[space.length-1].type
+        let perimeter = space[space.length-1].perimeter
+        let area = space[space.length-1].area
 
 
-        await fetch('/save-space',{
+        await fetch('/create-space',{
             method: 'POST',
             headers: {
                 'Content-type': 'application/json'
@@ -179,17 +211,6 @@ function save() {
             .catch((error)=>{
                 console.error('Some error happen', error)
             })
-
-        console.log('Insert: finished')
     })()
-
-    saveSpace = true;
 }
 
-function unload(event) {
-    if(saveSpace != true){
-        event.preventDefault();
-        event.returnValue = '';
-    }
-    
-}
