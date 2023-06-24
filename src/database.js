@@ -31,6 +31,18 @@ function readSpace(){
     })
 }
 
+function updateSpace(id, name, type, area, perimeter){
+    return new Promise((resolve, reject)=>{
+        connection.query('UPDATE space SET name_space = ?, type_space = ?, perimeter_space = ?, area_space = ? WHERE id_space = ?', [name, type, perimeter, area, id], (error, results)=>{
+            if(error){
+                reject(error)
+            }else{
+                resolve()
+            }
+        })
+    })
+}
+
 function deleteSpace(id){
     return new Promise((resolve, reject)=>{
         connection.query('DELETE FROM space WHERE id_space = ?', [id], (error, results)=>{
@@ -43,4 +55,6 @@ function deleteSpace(id){
     })
 }
 
-module.exports = {createSpace, readSpace, deleteSpace}
+
+
+module.exports = {createSpace, readSpace, updateSpace, deleteSpace}

@@ -54,6 +54,18 @@ app.delete('/delete-space/:id', (req,res)=>{
         })
 })
 
+app.put('/update-space', (req,res)=>{
+    const {id, name, type, area, perimeter} = req.body
+
+    database.updateSpace(id, name, type, area, perimeter)
+        .then(()=>{
+            res.status(200).json({message: 'Space updated'})
+        })
+        .catch(()=>{
+            res.status(500).json({error: 'Some error ocurred while updating space'})
+        })
+})
+
 //Run server
 //http://localhost:'number of server'/
 app.listen(port, ()=>{

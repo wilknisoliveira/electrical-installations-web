@@ -32,7 +32,7 @@ fetch('header.html')
         pageHeader.innerHTML = data;
     }) 
 
-getDB()
+readDB()
 
 
 //### FUNCTIONS FOR BUTTONS ###
@@ -86,6 +86,9 @@ function change() {
     space[selectedItem].perimeter = perimeterInput.value;
 
     clear();
+    insertSelect();
+
+    updateDB(selectedItem);
 }
 
 //Delete the selected space
@@ -189,7 +192,7 @@ function createDB() {
     })()
 }
 
-function getDB(){
+function readDB(){
     let spaceDB
     (async()=>{
         console.log('Getting spaces from database')
@@ -214,6 +217,31 @@ function getDB(){
         }
         insertSelect();
     })()
+}
+
+function updateDB(row){
+    console.log('Updating space to database')
+
+    let id = space[row].id
+    let name = space[row].space
+    let type = space[row].type
+    let perimeter = space[row].perimeter
+    let area = space[row].area
+
+    fetch('/update-space', {
+        method: 'PUT',
+        headers: {
+            'Content-type' : 'application/json'
+        },
+        body: JSON.stringify({id, name, type, area, perimeter}),
+    })
+        .then((response)=>response.json())
+        .then((data)=>{
+            console.log(data.message)
+        })
+        .catch((error)=>{
+            console.log('Some error happen', error)
+        })
 }
 
 function deleteDB(id){
