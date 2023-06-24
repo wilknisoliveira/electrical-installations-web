@@ -1,6 +1,7 @@
 //Export it's necessary to export a class
 export class Space {
-    constructor(space, type, area, perimeter){
+    constructor(id, space, type, area, perimeter){
+        this.id = id
         this.space = space
         this.type = type
         this.area = area
