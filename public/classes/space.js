@@ -1,14 +1,64 @@
-//Export it's necessary to export a class
 export class Space {
-    constructor(id, space, type, area, perimeter){
-        this.id = id
-        this.space = space
-        this.type = type
-        this.area = area
-        this.perimeter = perimeter
+    #id
+    #name
+    #type
+    #perimeter
+    #area
+
+    constructor(id, space, type, perimeter, area){
+        this.#id = id
+        this.#name = space
+        this.#type = type
+        this.#perimeter = perimeter
+        this.#area = area
     }
 
     toString() {
-        return `Espaço: ${this.space}, Tipo: ${this.type}, Área: ${this.area}, Perímetro: ${this.perimeter}`
+        return `Space - 
+            Id: ${this.getId()}, 
+            Name: ${this.getName()}, 
+            Type: ${this.getType()}, 
+            Perimeter: ${this.getPerimeter()}, 
+            Area: ${this.getArea()}`
+    }
+
+    getId(){
+        return this.#id
+    }
+
+    setId(id){
+        this.#id = id
+    }
+
+    getName(){
+        return this.#name
+    }
+
+    setName(name){
+        this.#name = name
+    }
+
+    getType(){
+        return this.#type
+    }
+
+    setType(type){
+        this.#type = type
+    }
+
+    getPerimeter(){
+        return this.#perimeter
+    }
+
+    setPerimeter(perimeter){
+        this.#perimeter = perimeter
+    }
+
+    getArea(){
+        return this.#area
+    }
+
+    setArea(area){
+        this.#area = area
     }
 }
