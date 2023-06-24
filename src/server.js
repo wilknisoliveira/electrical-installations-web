@@ -33,12 +33,24 @@ app.post('/create-space', (req,res)=>{
 })
 
 app.get('/get-space', (req,res)=>{
-    database.getSpace()
+    database.readSpace()
         .then((rows)=>{
             res.status(200).json(rows)
         })
         .catch(()=>{
             res.status(500).json({error: 'Erro while getting spaces'})
+        })
+})
+
+app.delete('/delete-space/:id', (req,res)=>{
+    const id = req.params.id
+
+    database.deleteSpace(id)
+        .then(()=>{
+            res.status(200).json({message: 'Space deleted'})
+        })
+        .catch(()=>{
+            res.status(500).json({error: 'Some error ocurred while deleting space'})
         })
 })
 

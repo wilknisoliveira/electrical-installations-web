@@ -34,34 +34,6 @@ fetch('header.html')
 
 getDB()
 
-function getDB(){
-    let spaceDB
-    (async()=>{
-        console.log('Getting spaces from database')
-
-        await fetch('/get-space')
-            .then((response)=>response.json())
-            .then((data)=>{
-                spaceDB = Object.values(data)
-            })
-            .catch((error)=>{
-                console.error('Some error happen', error)
-            })
-        
-        for (let index = 0; index < spaceDB.length; index++) {
-            space.push(new Space(
-                spaceDB[index].id_space, 
-                spaceDB[index].name_space, 
-                spaceDB[index].type_space, 
-                spaceDB[index].area_space, 
-                spaceDB[index].perimeter_space
-            ));
-        }
-        insertSelect();
-    })()
-    
-}
-
 
 //### FUNCTIONS FOR BUTTONS ###
 //Get the inputs entered by user
@@ -69,13 +41,13 @@ function getInputs() {
     //Add the inputs in the space array on last position
     let spaceId = 0
     let lastId = []
-    if (space.length == null)
+    if (space.length == [])
         spaceId = 0
     else{
         for (let index = 0; index < space.length; index++)
             lastId.push(space[index].id)
             
-        spaceId = Math.max(lastId) + 1
+        spaceId = Math.max(...lastId) + 1
     }
 
     space.push(new Space(spaceId, spaceInput.value, typeInput.value, areaInput.value, perimeterInput.value));
@@ -119,12 +91,15 @@ function change() {
 //Delete the selected space
 function deleteSpace() {
     let selected = listSpace.selectedIndex;
+    let id = space[selected].id
+
+    console.log('id: '+id)
+    deleteDB(id)
 
     //javaScript allow to delete the vector position. In this case, it's not necessary prevent null vector.
-    space.splice(selected, 1);
+    space.splice(selected, 1)
 
-    insertSelect();
-    
+    insertSelect()
 }
 
 //Put the data selected space in the labels
@@ -214,3 +189,42 @@ function createDB() {
     })()
 }
 
+function getDB(){
+    let spaceDB
+    (async()=>{
+        console.log('Getting spaces from database')
+
+        await fetch('/get-space')
+            .then((response)=>response.json())
+            .then((data)=>{
+                spaceDB = Object.values(data)
+            })
+            .catch((error)=>{
+                console.error('Some error happen while getting spaces', error)
+            })
+        
+        for (let index = 0; index < spaceDB.length; index++) {
+            space.push(new Space(
+                spaceDB[index].id_space, 
+                spaceDB[index].name_space, 
+                spaceDB[index].type_space, 
+                spaceDB[index].area_space, 
+                spaceDB[index].perimeter_space
+            ));
+        }
+        insertSelect();
+    })()
+}
+
+function deleteDB(id){
+    console.log('Deleting space from database')
+
+    fetch(`/delete-space/${id}`, {method: 'DELETE'})
+        .then((response)=>response.json)
+        .then((data)=>{
+            console.log(data.message)
+        })
+        .catch((error)=>{
+            console.log('Some error happen while deleting space')
+        })
+}

@@ -19,17 +19,28 @@ function createSpace(id, name, type, perimeter, area){
     })
 }
 
-function getSpace(){
+function readSpace(){
     return new Promise((resolve, reject)=>{
         connection.query('SELECT * FROM space', (error, results)=>{
             if(error){
-                reject(error);
+                reject(error)
             }else{
-                resolve(results);
+                resolve(results)
             }
         })
     })
 }
 
+function deleteSpace(id){
+    return new Promise((resolve, reject)=>{
+        connection.query('DELETE FROM space WHERE id_space = ?', [id], (error, results)=>{
+            if(error){
+                reject(error)
+            }else{
+                resolve()
+            }
+        })
+    })
+}
 
-module.exports = {createSpace, getSpace}
+module.exports = {createSpace, readSpace, deleteSpace}
