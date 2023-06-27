@@ -45,7 +45,7 @@ function getInputs() {
         spaceId = 0
     else{
         for (let index = 0; index < space.length; index++)
-            lastId.push(space[index].id)
+            lastId.push(space[index].getId())
             
         spaceId = Math.max(...lastId) + 1
     }
@@ -62,10 +62,10 @@ function getInputs() {
 function order() {
     //Put the vector in order considering the space name.
     space.sort((a,b) => {
-        if(a.space<b.space){
+        if(a.getName()<b.getName()){
             return -1;
         }
-        else if(a.space>b.space){
+        else if(a.getName()>b.getName()){
             return 1;
         }
         else
@@ -80,10 +80,10 @@ function order() {
 function change() {
     let selectedItem = listSpace.selectedIndex;
 
-    space[selectedItem].space = spaceInput.value;
-    space[selectedItem].type = typeInput.value;
-    space[selectedItem].area = areaInput.value;
-    space[selectedItem].perimeter = perimeterInput.value;
+    space[selectedItem].setName(spaceInput.value)
+    space[selectedItem].setType(typeInput.value)
+    space[selectedItem].setPerimeter(perimeterInput.value)
+    space[selectedItem].setArea(areaInput.value)
 
     clear();
     insertSelect();
@@ -94,7 +94,7 @@ function change() {
 //Delete the selected space
 function deleteSpace() {
     let selected = listSpace.selectedIndex;
-    let id = space[selected].id
+    let id = space[selected].getId()
 
     console.log('id: '+id)
     deleteDB(id)
@@ -109,10 +109,10 @@ function deleteSpace() {
 function selectSpace() {
     let selectedItem = listSpace.selectedIndex;
 
-    spaceInput.value = space[selectedItem].space
-    typeInput.value = space[selectedItem].type
-    areaInput.value = space[selectedItem].area
-    perimeterInput.value = space[selectedItem].perimeter
+    spaceInput.value = space[selectedItem].getName()
+    typeInput.value = space[selectedItem].getType()
+    perimeterInput.value = space[selectedItem].getPerimeter()
+    areaInput.value = space[selectedItem].getArea()
 }
 
 //Create a space list and show in the select item
@@ -125,7 +125,7 @@ function insertSelect() {
     //Create the options, and insert the content in listSpace
     for (let index = 0; index < space.length; index++) {
         option.push(document.createElement('option'));
-        option[index].innerHTML = space[index].space;
+        option[index].innerHTML = space[index].getName();
         listSpace.appendChild(option[index]);   
     }
     
@@ -154,10 +154,10 @@ function navigate(event) {
 
         if(selectedItem<0 || selectedItem>space.length-1){}
         else{
-            spaceInput.value = space[selectedItem].space
-            typeInput.value = space[selectedItem].type
-            areaInput.value = space[selectedItem].area
-            perimeterInput.value = space[selectedItem].perimeter
+            spaceInput.value = space[selectedItem].getName()
+            typeInput.value = space[selectedItem].getType()
+            perimeterInput.value = space[selectedItem].getPerimeter()
+            areaInput.value = space[selectedItem].getArea()
         }
 
         
@@ -168,12 +168,11 @@ function createDB() {
     (async()=>{
         console.log('Creating space to database')
 
-        let id = space[space.length-1].id
-        let name = space[space.length-1].space
-        let type = space[space.length-1].type
-        let perimeter = space[space.length-1].perimeter
-        let area = space[space.length-1].area
-
+        let id = space[space.length-1].getId()
+        let name = space[space.length-1].getName()
+        let type = space[space.length-1].getType()
+        let perimeter = space[space.length-1].getPerimeter()
+        let area = space[space.length-1].getArea()
 
         await fetch('/create-space',{
             method: 'POST',
@@ -211,8 +210,8 @@ function readDB(){
                 spaceDB[index].id_space, 
                 spaceDB[index].name_space, 
                 spaceDB[index].type_space, 
+                spaceDB[index].perimeter_space,
                 spaceDB[index].area_space, 
-                spaceDB[index].perimeter_space
             ));
         }
         insertSelect();
@@ -222,11 +221,11 @@ function readDB(){
 function updateDB(row){
     console.log('Updating space to database')
 
-    let id = space[row].id
-    let name = space[row].space
-    let type = space[row].type
-    let perimeter = space[row].perimeter
-    let area = space[row].area
+    let id = space[row].getId()
+    let name = space[row].getName()
+    let type = space[row].getType()
+    let perimeter = space[row].getPerimeter()
+    let area = space[row].getArea()
 
     fetch('/update-space', {
         method: 'PUT',
