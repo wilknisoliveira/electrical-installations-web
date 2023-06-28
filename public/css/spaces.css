@@ -6,10 +6,12 @@ section#content {
 input#space, #type{
     width: 200px;
     margin-right: 50px;
+    margin-left: 10px;
 }
 
 input#area, #perimeter {
     width: 100px;
+    margin-left: 10px;
 }
 
 div#inputs {
