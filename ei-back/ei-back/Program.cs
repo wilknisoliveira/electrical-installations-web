@@ -7,6 +7,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+//Apply the Dependecy Injection here!
+
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
