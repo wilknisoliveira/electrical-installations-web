@@ -1,3 +1,6 @@
+using ei_back.Infrastructure.Context;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -6,6 +9,11 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+
+var connection = builder.Configuration["PostgresConnection:PostgresConnectionString"];
+builder.Services.AddDbContext<PostgresContext>(options => options.UseNpgsql(connection));
+
 
 //Apply the Dependecy Injection here!
 

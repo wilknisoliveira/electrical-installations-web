@@ -12,13 +12,13 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.5" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Application\Api\User\Dtos\" />
     <Folder Include="Application\Usecases\" />
-    <Folder Include="Infrastructure\" />
   </ItemGroup>
 
 </Project>
