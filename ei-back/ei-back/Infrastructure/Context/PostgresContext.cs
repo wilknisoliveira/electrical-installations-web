@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using ei_back.Domain.User;
+using Microsoft.EntityFrameworkCore;
 
 namespace ei_back.Infrastructure.Context
 {
@@ -7,5 +8,7 @@ namespace ei_back.Infrastructure.Context
         public PostgresContext() { }
 
         public PostgresContext(DbContextOptions<PostgresContext> options) : base(options) { }
+
+        public DbSet<User> Users { get; set; }
     }
 }

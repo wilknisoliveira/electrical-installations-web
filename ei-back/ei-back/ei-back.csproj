@@ -11,6 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0">
       <PrivateAssets>all</PrivateAssets>
@@ -27,7 +28,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Application\Api\User\Dtos\" />
     <Folder Include="Application\Usecases\" />
   </ItemGroup>
 

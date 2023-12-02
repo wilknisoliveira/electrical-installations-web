@@ -1,9 +1,59 @@
+using ei_back.Domain.User;
 using ei_back.Infrastructure.Context;
+using ei_back.Infrastructure.Token;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+//Token Configurations
+var tokenConfigurations = new TokenConfiguration();
+
+new ConfigureFromConfigurationOptions<TokenConfiguration>(
+    builder.Configuration.GetSection("TokenConfigurations")
+    ).Configure(tokenConfigurations);
+
+builder.Services.AddSingleton(tokenConfigurations);
+
+//Token Configurations -> Define the authentication parameters
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = tokenConfigurations.Issuer,
+        ValidAudience = tokenConfigurations.Audience,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenConfigurations.Secret))
+    };
+});
+
+//Token Configurations -> Authorizate
+builder.Services.AddAuthorization(auth =>
+{
+    auth.AddPolicy("Bearer", new AuthorizationPolicyBuilder()
+        .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
+        .RequireAuthenticatedUser().Build()
+        );
+});
+
+//Token Configurations -> JWT Settings
+builder.Services.AddScoped<ILoginService, LoginService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+
 
 builder.Services.AddCors( options => options.AddDefaultPolicy(builder =>
 {
