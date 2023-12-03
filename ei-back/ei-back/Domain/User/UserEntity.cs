@@ -1,15 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ei_back.Domain.Base;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ei_back.Domain.User
 {
     [Table("users")]
-    public class User
+    public class UserEntity : BaseEntity
     {
-        [Key]
-        [Column("id")]
-        public long Id { get; set; }
-
         [Column("user_name")]
         public string UserName { get; set; }
 

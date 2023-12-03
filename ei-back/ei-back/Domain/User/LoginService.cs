@@ -7,7 +7,7 @@ namespace ei_back.Domain.User
 {
     public interface ILoginService
     {
-        TokenDtoReponse ValidateCredentials(UserDtoRequest userDtoRequest);
+        TokenDtoReponse ValidateCredentials(LoginDtoRequest userDtoRequest);
     }
 
     public class LoginService : ILoginService
@@ -25,7 +25,7 @@ namespace ei_back.Domain.User
             _tokenService = tokenService;
         }
 
-        public TokenDtoReponse ValidateCredentials(UserDtoRequest userDtoRequest)
+        public TokenDtoReponse ValidateCredentials(LoginDtoRequest userDtoRequest)
         {
             //Validate the credentials in DB
             var user = _userRepository.ValidateCredentials(userDtoRequest);

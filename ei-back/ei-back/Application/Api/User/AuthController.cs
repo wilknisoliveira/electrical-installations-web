@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ei_back.Application.Api.User
 {
+    [ApiController]
+    [Route("api/user/auth")]
     public class AuthController : ControllerBase
     {
         private ILoginService _loginService;
@@ -15,7 +17,7 @@ namespace ei_back.Application.Api.User
 
         [HttpPost]
         [Route("signin")]
-        public IActionResult Signin([FromBody] UserDtoRequest userDtoRequest)
+        public IActionResult Signin([FromBody] LoginDtoRequest userDtoRequest)
         {
             if (userDtoRequest == null) return BadRequest("Invalid client request");
 

@@ -9,6 +9,6 @@ namespace ei_back.Infrastructure.Context
 
         public PostgresContext(DbContextOptions<PostgresContext> options) : base(options) { }
 
-        public DbSet<User> Users { get; set; }
+        public DbSet<UserEntity> Users { get; set; }
     }
 }

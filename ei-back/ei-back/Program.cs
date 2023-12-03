@@ -1,3 +1,5 @@
+using ei_back.Application.Usecases.User;
+using ei_back.Domain.Base;
 using ei_back.Domain.User;
 using ei_back.Infrastructure.Context;
 using ei_back.Infrastructure.Token;
@@ -49,11 +51,6 @@ builder.Services.AddAuthorization(auth =>
         );
 });
 
-//Token Configurations -> JWT Settings
-builder.Services.AddScoped<ILoginService, LoginService>();
-builder.Services.AddScoped<ITokenService, TokenService>();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-
 
 builder.Services.AddCors( options => options.AddDefaultPolicy(builder =>
 {
@@ -74,6 +71,13 @@ builder.Services.AddDbContext<PostgresContext>(options => options.UseNpgsql(conn
 
 
 //Apply the Dependecy Injection here!
+builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
+//User
+builder.Services.AddScoped<ILoginService, LoginService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<ICreateUserUseCase,  CreateUserUseCase>();
 
 
 

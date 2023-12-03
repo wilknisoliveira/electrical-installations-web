@@ -1,33 +1,30 @@
 ﻿using ei_back.Application.Api.User.Dtos;
+using ei_back.Domain.Base;
 using ei_back.Infrastructure.Context;
 using System.Security.Cryptography;
 using System.Text;
 
 namespace ei_back.Domain.User
 {
-    public interface IUserRepository
+    public interface IUserRepository : IRepository<UserEntity>
     {
-        User ValidateCredentials(UserDtoRequest userDtoRequest);
-        User RefreshUserInfo(User user);
+        UserEntity ValidateCredentials(LoginDtoRequest userDtoRequest);
+        UserEntity RefreshUserInfo(UserEntity user);
     }
 
-    public class UserRepository : IUserRepository
+    public class UserRepository : GenericRepository<UserEntity>, IUserRepository
     {
-        private readonly PostgresContext _context;
 
-        public UserRepository(PostgresContext context)
-        {
-            _context = context;
-        }
+        public UserRepository(PostgresContext context) : base(context) { }
 
-        public User ValidateCredentials(UserDtoRequest userDtoRequest)
+        public UserEntity ValidateCredentials(LoginDtoRequest userDtoRequest)
         {
             var pass = ComputeHash(userDtoRequest.Password, SHA256.Create());
 
             return _context.Users.FirstOrDefault(u => (u.UserName == userDtoRequest.UserName) && (u.Password == pass));
         }
 
-        public User RefreshUserInfo(User user)
+        public UserEntity RefreshUserInfo(UserEntity user)
         {
             if (!_context.Users.Any(u => u.Id.Equals(user.Id))) return null;
 
