@@ -1,5 +1,6 @@
 ﻿using ei_back.Application.Api.User.Dtos;
 using ei_back.Application.Usecases.User;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,6 +8,7 @@ namespace ei_back.Application.Api.User
 {
     [ApiController]
     [Route("api/user")]
+    [Authorize("Bearer")]
     public class UserController : ControllerBase
     {
         private readonly ILogger<UserController> _logger;
