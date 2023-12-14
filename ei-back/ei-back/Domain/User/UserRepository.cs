@@ -8,7 +8,7 @@ namespace ei_back.Domain.User
 {
     public interface IUserRepository : IRepository<UserEntity>
     {
-        UserEntity ValidateCredentials(LoginDtoRequest userDtoRequest);
+        UserEntity ValidateCredentials(string userName, string pass);
         UserEntity RefreshUserInfo(UserEntity user);
     }
 
@@ -17,11 +17,9 @@ namespace ei_back.Domain.User
 
         public UserRepository(PostgresContext context) : base(context) { }
 
-        public UserEntity ValidateCredentials(LoginDtoRequest userDtoRequest)
+        public UserEntity ValidateCredentials(string userName, string pass)
         {
-            var pass = ComputeHash(userDtoRequest.Password, SHA256.Create());
-
-            return _context.Users.FirstOrDefault(u => (u.UserName == userDtoRequest.UserName) && (u.Password == pass));
+            return _context.Users.FirstOrDefault(u => (u.UserName == userName) && (u.Password == pass));
         }
 
         public UserEntity RefreshUserInfo(UserEntity user)
@@ -44,14 +42,6 @@ namespace ei_back.Domain.User
                 }
             }
             return result;
-        }
-
-        private string ComputeHash(string input, HashAlgorithm hashAlgorithm)
-        {
-            Byte[] inputBytes = Encoding.UTF8.GetBytes(input);
-            Byte[] hashedBytes = hashAlgorithm.ComputeHash(inputBytes);
-
-            return BitConverter.ToString(hashedBytes);
         }
 
     }

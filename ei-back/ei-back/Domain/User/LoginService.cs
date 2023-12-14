@@ -1,7 +1,9 @@
 ﻿using ei_back.Application.Api.User.Dtos;
 using ei_back.Infrastructure.Token;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 
 namespace ei_back.Domain.User
 {
@@ -17,18 +19,22 @@ namespace ei_back.Domain.User
 
         private IUserRepository _userRepository;
         private readonly ITokenService _tokenService;
+        private readonly IUserService _userService;
 
-        public LoginService(TokenConfiguration tokenConfiguration, IUserRepository userRepository, ITokenService tokenService)
+        public LoginService(TokenConfiguration tokenConfiguration, IUserRepository userRepository, ITokenService tokenService, IUserService userService)
         {
             _tokenConfiguration = tokenConfiguration;
             _userRepository = userRepository;
             _tokenService = tokenService;
+            _userService = userService;
         }
 
         public TokenDtoReponse ValidateCredentials(LoginDtoRequest userDtoRequest)
         {
             //Validate the credentials in DB
-            var user = _userRepository.ValidateCredentials(userDtoRequest);
+            var pass = _userService.ComputeHash(userDtoRequest.Password, SHA256.Create());
+
+            var user = _userRepository.ValidateCredentials(userDtoRequest.UserName, pass);
             if (user == null) return null;
 
             var claims = new List<Claim>
