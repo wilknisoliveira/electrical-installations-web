@@ -67,7 +67,10 @@ builder.Services.AddSwaggerGen();
 
 
 var connection = builder.Configuration["PostgresConnection:PostgresConnectionString"];
-builder.Services.AddDbContext<PostgresContext>(options => options.UseNpgsql(connection));
+builder.Services.AddDbContext<PostgresContext>(options => options.UseNpgsql(
+    connection, 
+    assembly => assembly.MigrationsAssembly(typeof(PostgresContext).Assembly.FullName))
+);
 
 
 //Apply the Dependecy Injection here!

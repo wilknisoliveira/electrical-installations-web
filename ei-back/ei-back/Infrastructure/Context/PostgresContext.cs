@@ -10,5 +10,12 @@ namespace ei_back.Infrastructure.Context
         public PostgresContext(DbContextOptions<PostgresContext> options) : base(options) { }
 
         public DbSet<UserEntity> Users { get; set; }
+
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
+        }
     }
 }

@@ -5,14 +5,14 @@ namespace ei_back.Domain.Base
 {
     public class BaseEntity
     {
-        [Key]
-        [Column("id")]
-        public long Id { get; set; }
+        //[Key]
+        //[Column("id")]
+        public Guid Id { get; set; }
 
-        [Column("created_at", TypeName = "timestamp without time zone")]
+        //[Column("created_at", TypeName = "timestamp without time zone")]
         public DateTime CreatedAt { get; set; }
 
-        [Column("updated_at", TypeName = "timestamp without time zone")]
+        //[Column("updated_at", TypeName = "timestamp without time zone")]
         public DateTime UpdatedAt { get; set; }
 
     }
