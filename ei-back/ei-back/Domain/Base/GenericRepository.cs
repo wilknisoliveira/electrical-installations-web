@@ -32,7 +32,6 @@ namespace ei_back.Domain.Base
             try
             {
                 _context.Add(item);
-                _context.SaveChanges();
                 return item;
             }
             catch
@@ -61,7 +60,6 @@ namespace ei_back.Domain.Base
                 try
                 {
                     _context.Entry(result).CurrentValues.SetValues(item);
-                    _context.SaveChanges();
                     return result;
                 }
                 catch (Exception)
@@ -80,7 +78,6 @@ namespace ei_back.Domain.Base
                 try
                 {
                     _dbSet.Remove(result);
-                    _context.SaveChanges();
                 }
                 catch (Exception)
                 {

@@ -33,7 +33,6 @@ namespace ei_back.Domain.User
                 try
                 {
                     _context.Entry(result).CurrentValues.SetValues(user);
-                    _context.SaveChanges();
                     return result;
                 }
                 catch (Exception)

@@ -75,6 +75,7 @@ builder.Services.AddDbContext<PostgresContext>(options => options.UseNpgsql(
 
 //Apply the Dependecy Injection here!
 builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 //User
 builder.Services.AddScoped<ILoginService, LoginService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
