@@ -7,10 +7,10 @@ namespace ei_back.Domain.Base
     {
         T Create(T item);
         List<T> FindAll();
-        T FindById(long id);
+        T FindById(Guid id);
         T Update(T item);
-        void Delete(long id);
-        bool Exists(long id);
+        void Delete(Guid id);
+        bool Exists(Guid id);
     }
 
 
@@ -46,7 +46,7 @@ namespace ei_back.Domain.Base
             return _dbSet.ToList();
         }
 
-        public T FindById(long id)
+        public T FindById(Guid id)
         {
             return _dbSet.SingleOrDefault(g => g.Id.Equals(id));
         }
@@ -72,7 +72,7 @@ namespace ei_back.Domain.Base
             else return null;
         }
 
-        public void Delete(long id)
+        public void Delete(Guid id)
         {
             var result = FindById(id);
             if (result != null)
@@ -89,7 +89,7 @@ namespace ei_back.Domain.Base
             }
         }
 
-        public bool Exists(long id)
+        public bool Exists(Guid id)
         {
             return _dbSet.Any(g => g.Id.Equals(id));
         }
