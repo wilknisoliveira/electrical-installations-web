@@ -67,9 +67,9 @@ builder.Services.AddSwaggerGen();
 
 
 var connection = builder.Configuration["PostgresConnection:PostgresConnectionString"];
-builder.Services.AddDbContext<PostgresContext>(options => options.UseNpgsql(
+builder.Services.AddDbContext<ei_back.Infrastructure.Context.AppContext>(options => options.UseNpgsql(
     connection, 
-    assembly => assembly.MigrationsAssembly(typeof(PostgresContext).Assembly.FullName))
+    assembly => assembly.MigrationsAssembly(typeof(ei_back.Infrastructure.Context.AppContext).Assembly.FullName))
 );
 
 

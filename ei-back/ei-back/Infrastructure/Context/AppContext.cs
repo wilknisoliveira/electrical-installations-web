@@ -3,11 +3,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ei_back.Infrastructure.Context
 {
-    public class PostgresContext : DbContext
+    public class AppContext : DbContext
     {
-        public PostgresContext() { }
+        public AppContext() { }
 
-        public PostgresContext(DbContextOptions<PostgresContext> options) : base(options) { }
+        public AppContext(DbContextOptions<AppContext> options) : base(options) { }
 
         public DbSet<UserEntity> Users { get; set; }
 

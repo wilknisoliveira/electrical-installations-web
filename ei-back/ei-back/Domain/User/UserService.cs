@@ -6,7 +6,7 @@ namespace ei_back.Domain.User
     public interface IUserService
     {
         string ComputeHash(string input, HashAlgorithm hashAlgorithm);
-        UserEntity Create(UserEntity userEntity);
+        Task<UserEntity> CreateAsync(UserEntity userEntity);
     }
     public class UserService : IUserService
     {
@@ -25,10 +25,10 @@ namespace ei_back.Domain.User
             return BitConverter.ToString(hashedBytes);
         }
 
-        public UserEntity Create(UserEntity userEntity)
+        public async Task<UserEntity> CreateAsync(UserEntity userEntity)
         {
             userEntity.Password = ComputeHash(userEntity.Password, SHA256.Create());
-            return _userRepository.Create(userEntity);
+            return await _userRepository.CreateAsync(userEntity);
         }
     }
 }

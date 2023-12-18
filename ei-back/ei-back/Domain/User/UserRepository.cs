@@ -15,7 +15,7 @@ namespace ei_back.Domain.User
     public class UserRepository : GenericRepository<UserEntity>, IUserRepository
     {
 
-        public UserRepository(PostgresContext context) : base(context) { }
+        public UserRepository(Infrastructure.Context.AppContext context) : base(context) { }
 
         public UserEntity ValidateCredentials(string userName, string pass)
         {
