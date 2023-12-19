@@ -25,11 +25,11 @@ namespace ei_back.Application.Api.User
 
         [HttpPost]
         [ProducesResponseType((200), Type = typeof(UserDtoResponse))]
-        public IActionResult Create([FromBody] UserDtoRequest userDtoRequest)
+        public async Task<IActionResult> Create([FromBody] UserDtoRequest userDtoRequest, CancellationToken cancellationToken = default)
         {
             if (userDtoRequest == null) return BadRequest();
-            var userDtoResponse = _createUserUseCase.Handler(userDtoRequest);
-            _unitOfWork.Commit();
+            var userDtoResponse = await _createUserUseCase.Handler(userDtoRequest);
+            await _unitOfWork.CommitAsync(cancellationToken);
 
             return Ok(userDtoResponse);
         }

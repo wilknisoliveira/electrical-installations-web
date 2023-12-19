@@ -10,7 +10,7 @@ using ei_back.Infrastructure.Context;
 
 namespace ei_back.Migrations
 {
-    [DbContext(typeof(PostgresContext))]
+    [DbContext(typeof(Infrastructure.Context.AppContext))]
     partial class PostgresContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

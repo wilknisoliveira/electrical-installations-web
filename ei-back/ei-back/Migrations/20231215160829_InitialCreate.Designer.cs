@@ -11,7 +11,7 @@ using ei_back.Infrastructure.Context;
 
 namespace ei_back.Migrations
 {
-    [DbContext(typeof(PostgresContext))]
+    [DbContext(typeof(Infrastructure.Context.AppContext))]
     [Migration("20231215160829_InitialCreate")]
     partial class InitialCreate
     {

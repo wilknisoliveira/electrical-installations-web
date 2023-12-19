@@ -5,7 +5,7 @@ namespace ei_back.Application.Usecases.User
 {
     public interface ICreateUserUseCase
     {
-        UserDtoResponse Handler(UserDtoRequest userDtoRequest);
+        Task<UserDtoResponse> Handler(UserDtoRequest userDtoRequest);
     }
 
     public class CreateUserUseCase : ICreateUserUseCase
@@ -17,11 +17,11 @@ namespace ei_back.Application.Usecases.User
             _userService = userService;
         }
 
-        public UserDtoResponse Handler(UserDtoRequest userDtoRequest)
+        public async Task<UserDtoResponse> Handler(UserDtoRequest userDtoRequest)
         {
             var user = userDtoRequest.ToEntity();
 
-            var userResponse = _userService.Create(user);
+            var userResponse = await _userService.CreateAsync(user);
 
             UserDtoResponse userDtoResponse = new UserDtoResponse();
 

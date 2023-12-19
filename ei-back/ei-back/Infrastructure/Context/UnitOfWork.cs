@@ -6,16 +6,17 @@ namespace ei_back.Infrastructure.Context
     public interface IUnitOfWork: IDisposable
     {
         void Commit();
+        Task<int> CommitAsync(CancellationToken cancellationToken = default);
         void Rollback();
         IRepository<T> GetRepository<T>() where T : BaseEntity;
     }
 
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly PostgresContext _context;
+        private readonly AppContext _context;
         private Dictionary<Type, Object> _repositories;
 
-        public UnitOfWork(PostgresContext dbContext)
+        public UnitOfWork(AppContext dbContext)
         {
             _context = dbContext;
             _repositories = new Dictionary<Type, object>();
@@ -24,6 +25,11 @@ namespace ei_back.Infrastructure.Context
         public void Commit()
         {
             _context.SaveChanges();
+        }
+
+        public async Task<int> CommitAsync(CancellationToken cancellationToken = default)
+        {
+            return await _context.SaveChangesAsync(cancellationToken);
         }
 
         public void Rollback()
