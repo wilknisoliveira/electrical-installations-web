@@ -67,7 +67,7 @@ builder.Services.AddAuthorization(auth =>
         );
 });
 
-
+//Cors
 builder.Services.AddCors( options => options.AddDefaultPolicy(builder =>
 {
     builder.AllowAnyOrigin()
@@ -75,13 +75,13 @@ builder.Services.AddCors( options => options.AddDefaultPolicy(builder =>
         .AllowAnyHeader();
 }));
 
-
+//Native
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
+//Database
 var connection = builder.Configuration["PostgresConnection:PostgresConnectionString"];
 builder.Services.AddDbContext<ei_back.Infrastructure.Context.AppContext>(options => options.UseNpgsql(
     connection, 
@@ -90,6 +90,7 @@ builder.Services.AddDbContext<ei_back.Infrastructure.Context.AppContext>(options
 
 
 //Apply the Dependecy Injection here!
+//Base
 builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 //User
