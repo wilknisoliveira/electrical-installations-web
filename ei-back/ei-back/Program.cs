@@ -1,7 +1,11 @@
 using ei_back.Application.Usecases.User;
+using ei_back.Application.Usecases.User.Interfaces;
 using ei_back.Domain.Base;
+using ei_back.Domain.Base.Interfaces;
 using ei_back.Domain.User;
+using ei_back.Domain.User.Interfaces;
 using ei_back.Infrastructure.Context;
+using ei_back.Infrastructure.Context.Interfaces;
 using ei_back.Infrastructure.Token;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;

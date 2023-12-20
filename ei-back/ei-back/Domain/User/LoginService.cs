@@ -1,17 +1,12 @@
 ﻿using ei_back.Application.Api.User.Dtos;
+using ei_back.Domain.User.Interfaces;
 using ei_back.Infrastructure.Token;
-using Microsoft.AspNetCore.Authorization.Infrastructure;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 
 namespace ei_back.Domain.User
 {
-    public interface ILoginService
-    {
-        TokenDtoReponse ValidateCredentials(LoginDtoRequest userDtoRequest);
-    }
-
     public class LoginService : ILoginService
     {
         private const string DATE_FORMAT = "yyy-MM-dd HH:mm:ss";

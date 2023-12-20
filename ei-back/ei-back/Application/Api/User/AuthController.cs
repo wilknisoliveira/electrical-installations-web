@@ -1,6 +1,6 @@
 ﻿using ei_back.Application.Api.User.Dtos;
-using ei_back.Application.Usecases.User;
-using ei_back.Infrastructure.Context;
+using ei_back.Application.Usecases.User.Interfaces;
+using ei_back.Infrastructure.Context.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ei_back.Application.Api.User

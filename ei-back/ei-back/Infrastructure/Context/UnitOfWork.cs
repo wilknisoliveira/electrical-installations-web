@@ -1,16 +1,10 @@
 ﻿using ei_back.Domain.Base;
+using ei_back.Domain.Base.Interfaces;
+using ei_back.Infrastructure.Context.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace ei_back.Infrastructure.Context
 {
-    public interface IUnitOfWork: IDisposable
-    {
-        void Commit();
-        Task<int> CommitAsync(CancellationToken cancellationToken = default);
-        void Rollback();
-        IRepository<T> GetRepository<T>() where T : BaseEntity;
-    }
-
     public class UnitOfWork : IUnitOfWork
     {
         private readonly AppContext _context;

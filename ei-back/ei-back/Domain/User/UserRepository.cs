@@ -1,17 +1,8 @@
-﻿using ei_back.Application.Api.User.Dtos;
-using ei_back.Domain.Base;
-using ei_back.Infrastructure.Context;
-using System.Security.Cryptography;
-using System.Text;
+﻿using ei_back.Domain.Base;
+using ei_back.Domain.User.Interfaces;
 
 namespace ei_back.Domain.User
 {
-    public interface IUserRepository : IRepository<UserEntity>
-    {
-        UserEntity ValidateCredentials(string userName, string pass);
-        UserEntity RefreshUserInfo(UserEntity user);
-    }
-
     public class UserRepository : GenericRepository<UserEntity>, IUserRepository
     {
 
@@ -19,7 +10,7 @@ namespace ei_back.Domain.User
 
         public UserEntity ValidateCredentials(string userName, string pass)
         {
-            return _context.Users.FirstOrDefault(u => (u.UserName == userName) && (u.Password == pass));
+            return _context.Users.FirstOrDefault(u => u.UserName == userName && u.Password == pass);
         }
 
         public UserEntity RefreshUserInfo(UserEntity user)

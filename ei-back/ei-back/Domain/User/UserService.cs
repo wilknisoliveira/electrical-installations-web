@@ -1,13 +1,9 @@
-﻿using System.Security.Cryptography;
+﻿using ei_back.Domain.User.Interfaces;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace ei_back.Domain.User
 {
-    public interface IUserService
-    {
-        string ComputeHash(string input, HashAlgorithm hashAlgorithm);
-        Task<UserEntity> CreateAsync(UserEntity userEntity);
-    }
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
@@ -19,8 +15,8 @@ namespace ei_back.Domain.User
 
         public string ComputeHash(string input, HashAlgorithm hashAlgorithm)
         {
-            Byte[] inputBytes = Encoding.UTF8.GetBytes(input);
-            Byte[] hashedBytes = hashAlgorithm.ComputeHash(inputBytes);
+            byte[] inputBytes = Encoding.UTF8.GetBytes(input);
+            byte[] hashedBytes = hashAlgorithm.ComputeHash(inputBytes);
 
             return BitConverter.ToString(hashedBytes);
         }

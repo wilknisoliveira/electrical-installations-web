@@ -1,13 +1,10 @@
 ﻿using ei_back.Application.Api.User.Dtos;
+using ei_back.Application.Usecases.User.Interfaces;
 using ei_back.Domain.User;
+using ei_back.Domain.User.Interfaces;
 
 namespace ei_back.Application.Usecases.User
 {
-    public interface ISignInUseCase
-    {
-        TokenDtoReponse Handler(LoginDtoRequest loginDtoRequest);
-    }
-
     public class SigninUseCase : ISignInUseCase
     {
         private readonly ILoginService _loginService;

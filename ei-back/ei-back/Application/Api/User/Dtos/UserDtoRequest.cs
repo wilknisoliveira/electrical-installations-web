@@ -1,6 +1,4 @@
-﻿
-
-using ei_back.Domain.User;
+﻿using ei_back.Domain.User;
 using System.Data;
 using System.Security.Cryptography;
 

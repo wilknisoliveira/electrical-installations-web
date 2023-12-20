@@ -1,13 +1,9 @@
 ﻿using ei_back.Application.Api.User.Dtos;
-using ei_back.Domain.User;
+using ei_back.Application.Usecases.User.Interfaces;
+using ei_back.Domain.User.Interfaces;
 
 namespace ei_back.Application.Usecases.User
 {
-    public interface ICreateUserUseCase
-    {
-        Task<UserDtoResponse> Handler(UserDtoRequest userDtoRequest);
-    }
-
     public class CreateUserUseCase : ICreateUserUseCase
     {
         private readonly IUserService _userService;
