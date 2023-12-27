@@ -7,8 +7,10 @@ using ei_back.Domain.User.Interfaces;
 using ei_back.Infrastructure.Context;
 using ei_back.Infrastructure.Context.Interfaces;
 using ei_back.Infrastructure.Token;
+using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -93,6 +95,13 @@ builder.Services.AddDbContext<ei_back.Infrastructure.Context.AppContext>(options
     assembly => assembly.MigrationsAssembly(typeof(ei_back.Infrastructure.Context.AppContext).Assembly.FullName))
 );
 
+//HealthChecks
+builder.Services.AddHealthChecks()
+    .AddNpgSql(connection, name: "Postgres Check", tags: new string[] { "db", "data" });
+
+builder.Services.AddHealthChecksUI()
+    .AddInMemoryStorage();
+
 
 //Apply the Dependecy Injection here!
 //Base
@@ -116,6 +125,17 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseHealthChecks("/health", new HealthCheckOptions()
+{
+    Predicate = _ => true,
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+});
+
+app.UseHealthChecksUI(options =>
+{
+    options.UIPath = "/healthDashboard";
+});
 
 app.UseHttpsRedirection();
 
