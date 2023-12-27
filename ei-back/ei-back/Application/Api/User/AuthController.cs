@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ei_back.Application.Api.User
 {
     [ApiController]
-    [Route("api/user/auth")]
+    [Route("api/user/[controller]")]
     public class AuthController : ControllerBase
     {
         private readonly ISignInUseCase _signInUseCase;

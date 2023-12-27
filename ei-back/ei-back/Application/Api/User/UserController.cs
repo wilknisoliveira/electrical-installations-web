@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ei_back.Application.Api.User
 {
     [ApiController]
-    [Route("api/user")]
+    [Route("api/[controller]")]
     [Authorize("Bearer")]
     public class UserController : ControllerBase
     {
