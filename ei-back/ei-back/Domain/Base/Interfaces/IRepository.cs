@@ -8,6 +8,10 @@
         Task<List<T>> FindAllAsync(CancellationToken cancellationToken = default);
         T FindById(Guid id);
         Task<T> FindByIdAsync(Guid id, CancellationToken cancellationToken = default);
+        List<T> FindWithPagedSearch(string query);
+        Task<List<T>> FindWithPagedSearchAsync(string query, CancellationToken cancellationToken = default);
+        int GetCount(string query);
+        Task<int> GetCountAsync(string query, CancellationToken cancellationToken = default);
         T Update(T item);
         void Delete(Guid id);
         bool Exists(Guid id);

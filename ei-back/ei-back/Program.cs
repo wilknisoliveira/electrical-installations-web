@@ -113,6 +113,7 @@ builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ICreateUserUseCase,  CreateUserUseCase>();
+builder.Services.AddScoped<IGetUserUseCase, GetUserUseCase>();
 builder.Services.AddScoped<ISignInUseCase, SigninUseCase>();
 
 

@@ -62,6 +62,47 @@ namespace ei_back.Domain.Base
             return await _dbSet.SingleOrDefaultAsync(g => g.Id.Equals(id), cancellationToken);
         }
 
+        public List<T> FindWithPagedSearch(string query)
+        {
+            return _dbSet.FromSqlRaw<T>(query).ToList();
+        }
+
+        public virtual async Task<List<T>> FindWithPagedSearchAsync(string query, CancellationToken cancellationToken = default)
+        {
+            return await _dbSet.FromSqlRaw<T>(query).ToListAsync();
+        }
+
+        public int GetCount(string query)
+        {
+            var result = "";
+            using (var connection = _context.Database.GetDbConnection())
+            {
+                connection.Open();
+                using (var command = connection.CreateCommand())
+                {
+                    command.CommandText = query;
+                    result = command.ExecuteScalar().ToString();
+                }
+            }
+            return int.Parse(result);
+        }
+
+        public virtual async Task<int> GetCountAsync(string query, CancellationToken cancellationToken = default)
+        {
+            var result = "";
+            using (var connection = _context.Database.GetDbConnection())
+            {
+                connection.Open();
+                using (var command = connection.CreateCommand())
+                {
+                    command.CommandText = query;
+                    var response = await command.ExecuteScalarAsync();
+                    result = response.ToString();
+                }
+            }
+            return int.Parse(result);
+        }
+
         public T Update(T item)
         {
             if (!Exists(item.Id)) return null;
