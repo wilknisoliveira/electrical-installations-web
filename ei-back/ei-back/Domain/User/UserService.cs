@@ -32,31 +32,30 @@ namespace ei_back.Domain.User
 
         public async Task<PagedSearchDto<UserGetDtoResponse>> FindWithPagedSearch(
             string name,
-            string sortDirection,
-            int pageSize,
+            string sort,
+            int size,
+            int offset,
             int page)
         {
-            var sort = (!string.IsNullOrWhiteSpace(sortDirection) && !sortDirection.Equals("desc")) ? "asc" : "desc";
-            var size = (pageSize < 1) ? 10 : pageSize;
-            var offset = page > 0 ? (page - 1) * size : 0;
+            var users = await _userRepository.FindWithPagedSearchAsync(
+                sort,
+                size,
+                page,
+                offset,
+                name,
+                "user_name",
+                "users");
 
-            string query = @"SELECT * FROM users u WHERE 1 = 1";
-            if (!string.IsNullOrWhiteSpace(name)) query = query + $" AND u.user_name like '%{name}% ";
-            query += $" ORDER BY u.user_name {sort} LIMIT {size} OFFSET {offset} ";
-
-            string countQuery = @"SELECT COUNT(*) FROM user u WHERE 1 = 1";
-            if (!string.IsNullOrWhiteSpace(name)) countQuery = countQuery + $" AND u.user_name like '%{name}% ";
-
-            var users = await _userRepository.FindWithPagedSearchAsync(query);
-            int totalResults = await _userRepository.GetCountAsync(countQuery);
-
-            var usersDto = new UserGetDtoResponse().ToDtoList(users);
+            int totalResults = await _userRepository.GetCountAsync(
+                name,
+                "user_name",
+                "users");
 
             return new PagedSearchDto<UserGetDtoResponse>
             {
                 CurrentPage = page,
-                List = usersDto,
-                PageSize = pageSize,
+                List = new UserGetDtoResponse().ToDtoList(users),
+                PageSize = size,
                 SortDirections = sort,
                 TotalResults = totalResults
             };

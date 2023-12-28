@@ -15,7 +15,13 @@ namespace ei_back.Application.Usecases.User.Interfaces
 
         public async Task<PagedSearchDto<UserGetDtoResponse>> Handler(string? name, string sortDirection, int pageSize, int page)
         {
-            return await _userService.FindWithPagedSearch(name, sortDirection, pageSize, page);
+            var pagedSearchDto = new PagedSearchDto<UserGetDtoResponse>();
+
+            var sort = pagedSearchDto.ValidateSort(sortDirection);
+            var size = pagedSearchDto.ValidateSize(pageSize);
+            var offset = pagedSearchDto.ValidateOffset(page, pageSize);
+
+            return await _userService.FindWithPagedSearch(name, sort, size, offset, page);
         }
     }
 }

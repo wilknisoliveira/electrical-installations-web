@@ -8,6 +8,11 @@ namespace ei_back.Domain.User.Interfaces
     {
         string ComputeHash(string input, HashAlgorithm hashAlgorithm);
         Task<UserEntity> CreateAsync(UserEntity userEntity);
-        Task<PagedSearchDto<UserGetDtoResponse>> FindWithPagedSearch(string name, string sortDirection, int pageSize, int page);
+        Task<PagedSearchDto<UserGetDtoResponse>> FindWithPagedSearch(
+            string name,
+            string sortDirection,
+            int pageSize,
+            int offset,
+            int page);
     }
 }

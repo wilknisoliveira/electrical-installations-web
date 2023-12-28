@@ -1,5 +1,7 @@
 ﻿using ei_back.Domain.Base.Interfaces;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using System.Xml.Linq;
 
 namespace ei_back.Domain.Base
 {
@@ -62,18 +64,47 @@ namespace ei_back.Domain.Base
             return await _dbSet.SingleOrDefaultAsync(g => g.Id.Equals(id), cancellationToken);
         }
 
-        public List<T> FindWithPagedSearch(string query)
+        public List<T> FindWithPagedSearch(
+            string sort,
+            int size,
+            int page,
+            int offset,
+            string name,
+            string column,
+            string table)
         {
+            string query = $@"SELECT * FROM {table} t WHERE 1 = 1";
+            if (!string.IsNullOrWhiteSpace(name)) query = query + $" AND t.{column} ILIKE '%{name}%' ";
+            query += $" ORDER BY t.{column} {sort} LIMIT {size} OFFSET {offset} ";
+
             return _dbSet.FromSqlRaw<T>(query).ToList();
         }
 
-        public virtual async Task<List<T>> FindWithPagedSearchAsync(string query, CancellationToken cancellationToken = default)
+        public virtual async Task<List<T>> FindWithPagedSearchAsync(
+            string sort,
+            int size,
+            int page,
+            int offset,
+            string name,
+            string column,
+            string table,
+            CancellationToken cancellationToken = default)
         {
+            string query = $@"SELECT * FROM {table} t WHERE 1 = 1";
+            if (!string.IsNullOrWhiteSpace(name)) query = query + $" AND t.{column} ILIKE '%{name}%' ";
+            query += $" ORDER BY t.{column} {sort} LIMIT {size} OFFSET {offset} ";
+
             return await _dbSet.FromSqlRaw<T>(query).ToListAsync();
         }
 
-        public int GetCount(string query)
+        public int GetCount(
+            string name,
+            string column,
+            string table)
         {
+            string query = $@"SELECT COUNT(*) FROM {table} t WHERE 1 = 1";
+            if (!string.IsNullOrWhiteSpace(name)) query = query + $" AND t.{column} ILIKE '%{name}%' ";
+
             var result = "";
             using (var connection = _context.Database.GetDbConnection())
             {
@@ -87,8 +118,15 @@ namespace ei_back.Domain.Base
             return int.Parse(result);
         }
 
-        public virtual async Task<int> GetCountAsync(string query, CancellationToken cancellationToken = default)
+        public virtual async Task<int> GetCountAsync(
+            string name,
+            string column,
+            string table,
+            CancellationToken cancellationToken = default)
         {
+            string query = $@"SELECT COUNT(*) FROM {table} t WHERE 1 = 1";
+            if (!string.IsNullOrWhiteSpace(name)) query = query + $" AND t.{column} ILIKE '%{name}%' ";
+
             var result = "";
             using (var connection = _context.Database.GetDbConnection())
             {

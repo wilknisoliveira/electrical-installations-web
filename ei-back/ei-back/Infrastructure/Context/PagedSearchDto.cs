@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
+﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 
 namespace ei_back.Infrastructure.Context
 {
@@ -27,6 +28,21 @@ namespace ei_back.Infrastructure.Context
         public int GetPageSize()
         {
             return PageSize == 0 ? 10 : PageSize;
+        }
+
+        public string ValidateSort(string sortDirection)
+        {
+            return (!string.IsNullOrWhiteSpace(sortDirection) && !sortDirection.Equals("desc")) ? "asc" : "desc";
+        }
+
+        public int ValidateSize(int pageSize)
+        {
+            return (pageSize < 1) ? 10 : pageSize;
+        }
+
+        public int ValidateOffset(int page, int size)
+        {
+            return page > 0 ? (page - 1) * ValidateSize(size) : 0;
         }
     }
 }
