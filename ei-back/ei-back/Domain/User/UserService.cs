@@ -1,4 +1,5 @@
-﻿using ei_back.Application.Api.User.Dtos;
+﻿using AutoMapper;
+using ei_back.Application.Api.User.Dtos;
 using ei_back.Domain.User.Interfaces;
 using ei_back.Infrastructure.Context;
 using System.Security.Cryptography;
@@ -9,10 +10,12 @@ namespace ei_back.Domain.User
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IMapper _mapper;
 
-        public UserService(IUserRepository userRepository)
+        public UserService(IUserRepository userRepository, IMapper mapper)
         {
             _userRepository = userRepository;
+            _mapper = mapper;
         }
 
         public string ComputeHash(string input, HashAlgorithm hashAlgorithm)
@@ -25,6 +28,9 @@ namespace ei_back.Domain.User
 
         public async Task<UserEntity> CreateAsync(UserEntity userEntity)
         {
+            userEntity.CreatedAt = DateTime.Now;
+            userEntity.UpdatedAt = DateTime.Now;
+
             userEntity.Password = ComputeHash(userEntity.Password, SHA256.Create());
             return await _userRepository.CreateAsync(userEntity);
             
@@ -54,7 +60,7 @@ namespace ei_back.Domain.User
             return new PagedSearchDto<UserGetDtoResponse>
             {
                 CurrentPage = page,
-                List = new UserGetDtoResponse().ToDtoList(users),
+                List = users.Select(user => _mapper.Map<UserGetDtoResponse>(user)).ToList(),
                 PageSize = size,
                 SortDirections = sort,
                 TotalResults = totalResults

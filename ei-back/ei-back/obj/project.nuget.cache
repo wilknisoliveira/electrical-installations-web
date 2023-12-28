@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "XaX4DsGuhNzsR8GJPIjqhqLLm75hiWlsesxSYrxiwqUgnmA11LgaJvO0gKYAfP64vCjyNzRQnEz/L2uU7qSLkw==",
+  "dgSpecHash": "1EmMWmy6lDqgtVXvnhvrL2lxcqe5YsdHPj71Czdqid0gp6sJ7mu/QOW5d8abCwZkh8VMv8PhDtMyjy+pzz2pAA==",
   "success": true,
   "projectFilePath": "C:\\Users\\wilknis.oliveira\\Code\\Projects\\electrical-installations\\electrical-installations-web\\ei-back\\ei-back\\ei-back.csproj",
   "expectedPackageFiles": [
@@ -10,6 +10,8 @@
     "C:\\Users\\wilknis.oliveira\\.nuget\\packages\\aspnetcore.healthchecks.ui.core\\8.0.0\\aspnetcore.healthchecks.ui.core.8.0.0.nupkg.sha512",
     "C:\\Users\\wilknis.oliveira\\.nuget\\packages\\aspnetcore.healthchecks.ui.data\\8.0.0\\aspnetcore.healthchecks.ui.data.8.0.0.nupkg.sha512",
     "C:\\Users\\wilknis.oliveira\\.nuget\\packages\\aspnetcore.healthchecks.ui.inmemory.storage\\8.0.0\\aspnetcore.healthchecks.ui.inmemory.storage.8.0.0.nupkg.sha512",
+    "C:\\Users\\wilknis.oliveira\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
+    "C:\\Users\\wilknis.oliveira\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",
     "C:\\Users\\wilknis.oliveira\\.nuget\\packages\\fractions\\7.2.1\\fractions.7.2.1.nupkg.sha512",
     "C:\\Users\\wilknis.oliveira\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\wilknis.oliveira\\.nuget\\packages\\identitymodel\\5.2.0\\identitymodel.5.2.0.nupkg.sha512",
@@ -22,6 +24,7 @@
     "C:\\Users\\wilknis.oliveira\\.nuget\\packages\\microsoft.codeanalysis.csharp\\4.5.0\\microsoft.codeanalysis.csharp.4.5.0.nupkg.sha512",
     "C:\\Users\\wilknis.oliveira\\.nuget\\packages\\microsoft.codeanalysis.csharp.workspaces\\4.5.0\\microsoft.codeanalysis.csharp.workspaces.4.5.0.nupkg.sha512",
     "C:\\Users\\wilknis.oliveira\\.nuget\\packages\\microsoft.codeanalysis.workspaces.common\\4.5.0\\microsoft.codeanalysis.workspaces.common.4.5.0.nupkg.sha512",
+    "C:\\Users\\wilknis.oliveira\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\wilknis.oliveira\\.nuget\\packages\\microsoft.entityframeworkcore\\8.0.0\\microsoft.entityframeworkcore.8.0.0.nupkg.sha512",
     "C:\\Users\\wilknis.oliveira\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\8.0.0\\microsoft.entityframeworkcore.abstractions.8.0.0.nupkg.sha512",
     "C:\\Users\\wilknis.oliveira\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\8.0.0\\microsoft.entityframeworkcore.analyzers.8.0.0.nupkg.sha512",

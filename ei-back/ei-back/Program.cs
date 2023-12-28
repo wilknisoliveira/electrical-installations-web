@@ -7,6 +7,7 @@ using ei_back.Domain.User.Interfaces;
 using ei_back.Infrastructure.Context;
 using ei_back.Infrastructure.Context.Interfaces;
 using ei_back.Infrastructure.Exceptions;
+using ei_back.Infrastructure.Mappings;
 using ei_back.Infrastructure.Swagger;
 using ei_back.Infrastructure.Token;
 using HealthChecks.UI.Client;
@@ -106,6 +107,9 @@ builder.Services.AddHealthChecks()
 
 builder.Services.AddHealthChecksUI()
     .AddInMemoryStorage();
+
+//AutoMapper
+builder.Services.AddAutoMapper(typeof(MappingsProfile));
 
 
 //Apply the Dependecy Injection here!
