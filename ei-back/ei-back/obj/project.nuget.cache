@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "Tc4U4NUITSQSVfnj+uFxQ1UaTKJu7DYLXoGoK7sOmlWY4+EBhbz/bodg6myi0/hzQMQVtjF10kKsTfQkeeT52Q==",
+  "dgSpecHash": "XaX4DsGuhNzsR8GJPIjqhqLLm75hiWlsesxSYrxiwqUgnmA11LgaJvO0gKYAfP64vCjyNzRQnEz/L2uU7qSLkw==",
   "success": true,
   "projectFilePath": "C:\\Users\\wilknis.oliveira\\Code\\Projects\\electrical-installations\\electrical-installations-web\\ei-back\\ei-back\\ei-back.csproj",
   "expectedPackageFiles": [
@@ -73,9 +73,9 @@
     "C:\\Users\\wilknis.oliveira\\.nuget\\packages\\serilog.sinks.debug\\2.0.0\\serilog.sinks.debug.2.0.0.nupkg.sha512",
     "C:\\Users\\wilknis.oliveira\\.nuget\\packages\\serilog.sinks.file\\5.0.0\\serilog.sinks.file.5.0.0.nupkg.sha512",
     "C:\\Users\\wilknis.oliveira\\.nuget\\packages\\swashbuckle.aspnetcore\\6.4.0\\swashbuckle.aspnetcore.6.4.0.nupkg.sha512",
-    "C:\\Users\\wilknis.oliveira\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.4.0\\swashbuckle.aspnetcore.swagger.6.4.0.nupkg.sha512",
-    "C:\\Users\\wilknis.oliveira\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.4.0\\swashbuckle.aspnetcore.swaggergen.6.4.0.nupkg.sha512",
-    "C:\\Users\\wilknis.oliveira\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.4.0\\swashbuckle.aspnetcore.swaggerui.6.4.0.nupkg.sha512",
+    "C:\\Users\\wilknis.oliveira\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.5.0\\swashbuckle.aspnetcore.swagger.6.5.0.nupkg.sha512",
+    "C:\\Users\\wilknis.oliveira\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.5.0\\swashbuckle.aspnetcore.swaggergen.6.5.0.nupkg.sha512",
+    "C:\\Users\\wilknis.oliveira\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.5.0\\swashbuckle.aspnetcore.swaggerui.6.5.0.nupkg.sha512",
     "C:\\Users\\wilknis.oliveira\\.nuget\\packages\\system.codedom\\4.4.0\\system.codedom.4.4.0.nupkg.sha512",
     "C:\\Users\\wilknis.oliveira\\.nuget\\packages\\system.collections.immutable\\6.0.0\\system.collections.immutable.6.0.0.nupkg.sha512",
     "C:\\Users\\wilknis.oliveira\\.nuget\\packages\\system.composition\\6.0.0\\system.composition.6.0.0.nupkg.sha512",

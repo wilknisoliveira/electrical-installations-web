@@ -6,6 +6,7 @@ using ei_back.Domain.User;
 using ei_back.Domain.User.Interfaces;
 using ei_back.Infrastructure.Context;
 using ei_back.Infrastructure.Context.Interfaces;
+using ei_back.Infrastructure.Swagger;
 using ei_back.Infrastructure.Token;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -86,7 +87,7 @@ builder.Services.AddCors( options => options.AddDefaultPolicy(builder =>
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddInfrastructureSwagger();
 
 //Database
 var connection = builder.Configuration["PostgresConnection:PostgresConnectionString"];
