@@ -6,6 +6,7 @@ using ei_back.Domain.User;
 using ei_back.Domain.User.Interfaces;
 using ei_back.Infrastructure.Context;
 using ei_back.Infrastructure.Context.Interfaces;
+using ei_back.Infrastructure.Exceptions;
 using ei_back.Infrastructure.Swagger;
 using ei_back.Infrastructure.Token;
 using HealthChecks.UI.Client;
@@ -37,6 +38,9 @@ builder.Logging.AddSerilog(logger);
 //Enviroment
 builder.Configuration.AddEnvironmentVariables()
     .AddUserSecrets(Assembly.GetExecutingAssembly(), true);
+
+//Exception Handler
+builder.Services.AddExceptionHandler<AppExceptionHandler>();
 
 //Token Configurations
 var tokenConfigurations = new TokenConfiguration();
@@ -128,6 +132,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+//Health Check
 app.UseHealthChecks("/health", new HealthCheckOptions()
 {
     Predicate = _ => true,
@@ -138,6 +143,9 @@ app.UseHealthChecksUI(options =>
 {
     options.UIPath = "/healthDashboard";
 });
+
+//Exception Handler
+app.UseExceptionHandler(_ => { });
 
 app.UseHttpsRedirection();
 
