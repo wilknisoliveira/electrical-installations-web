@@ -7,10 +7,10 @@ namespace ei_back.Infrastructure.Context
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly AppContext _context;
+        private readonly EIContext _context;
         private Dictionary<Type, Object> _repositories;
 
-        public UnitOfWork(AppContext dbContext)
+        public UnitOfWork(EIContext dbContext)
         {
             _context = dbContext;
             _repositories = new Dictionary<Type, object>();

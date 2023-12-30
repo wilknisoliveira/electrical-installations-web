@@ -1,8 +1,9 @@
 ﻿using ei_back.Application.Api.User.Dtos;
+using ei_back.Application.Usecases.User.Interfaces;
 using ei_back.Domain.User.Interfaces;
 using ei_back.Infrastructure.Context;
 
-namespace ei_back.Application.Usecases.User.Interfaces
+namespace ei_back.Application.Usecases.User
 {
     public class GetUserUseCase : IGetUserUseCase
     {

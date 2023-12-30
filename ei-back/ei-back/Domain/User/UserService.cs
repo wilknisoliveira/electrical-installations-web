@@ -67,5 +67,21 @@ namespace ei_back.Domain.User
             };
         
         }
+
+        public async Task<UserEntity> FindByIdAsync(Guid userId)
+        {
+            return await _userRepository.FindByIdAsync(userId);
+        }
+
+        public async Task<UserEntity> FindUserAndRoles(Guid userId)
+        {
+            return await _userRepository.GetUserAndRolesAsync(userId);
+        }
+
+        public UserEntity Update(UserEntity user)
+        {
+            user.UpdatedAt = DateTime.Now;
+            return _userRepository.Update(user);
+        }
     }
 }

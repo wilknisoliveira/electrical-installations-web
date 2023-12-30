@@ -11,8 +11,8 @@ using ei_back.Infrastructure.Context;
 
 namespace ei_back.Migrations
 {
-    [DbContext(typeof(Infrastructure.Context.AppContext))]
-    [Migration("20231215160829_InitialCreate")]
+    [DbContext(typeof(EIContext))]
+    [Migration("20231229193858_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -24,6 +24,54 @@ namespace ei_back.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("RoleEntityUserEntity", b =>
+                {
+                    b.Property<Guid>("RolesId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("UsersId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("RolesId", "UsersId");
+
+                    b.HasIndex("UsersId");
+
+                    b.ToTable("RoleEntityUserEntity");
+                });
+
+            modelBuilder.Entity("ei_back.Domain.Role.RoleEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id")
+                        .HasDefaultValueSql("uuid_generate_v4()");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text")
+                        .HasColumnName("description");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("name");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("updated_at");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("roles", (string)null);
+                });
 
             modelBuilder.Entity("ei_back.Domain.User.UserEntity", b =>
                 {
@@ -67,6 +115,21 @@ namespace ei_back.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("users", (string)null);
+                });
+
+            modelBuilder.Entity("RoleEntityUserEntity", b =>
+                {
+                    b.HasOne("ei_back.Domain.Role.RoleEntity", null)
+                        .WithMany()
+                        .HasForeignKey("RolesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ei_back.Domain.User.UserEntity", null)
+                        .WithMany()
+                        .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

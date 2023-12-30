@@ -14,5 +14,8 @@ namespace ei_back.Domain.User.Interfaces
             int pageSize,
             int offset,
             int page);
+        Task<UserEntity> FindByIdAsync(Guid userId);
+        Task<UserEntity> FindUserAndRoles(Guid userId);
+        UserEntity Update(UserEntity user);
     }
 }

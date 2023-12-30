@@ -9,7 +9,6 @@ namespace ei_back.Application.Api.User
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize("Bearer")]
     public class UserController : ControllerBase
     {
         private readonly ILogger<UserController> _logger;
@@ -31,6 +30,7 @@ namespace ei_back.Application.Api.User
 
         [HttpPost]
         [ProducesResponseType(200, Type = typeof(UserDtoResponse))]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([FromBody] UserDtoRequest userDtoRequest, CancellationToken cancellationToken = default)
         {
             if (userDtoRequest == null) return BadRequest();
@@ -42,6 +42,7 @@ namespace ei_back.Application.Api.User
 
         [HttpGet("{sortDirection}/{pageSize}/{page}")]
         [ProducesResponseType(200, Type = typeof(PagedSearchDto<UserGetDtoResponse>))]
+        [Authorize(Roles = "Admin, CommonUser")]
         public async Task<IActionResult> Get(
             [FromQuery] string? name,
             string sortDirection,
@@ -50,6 +51,5 @@ namespace ei_back.Application.Api.User
         {
             return Ok(await _getUserUseCase.Handler(name, sortDirection, pageSize, page));
         }
-
     }
 }

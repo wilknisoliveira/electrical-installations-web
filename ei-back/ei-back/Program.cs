@@ -1,7 +1,11 @@
+using ei_back.Application.Usecases.Role;
+using ei_back.Application.Usecases.Role.Interfaces;
 using ei_back.Application.Usecases.User;
 using ei_back.Application.Usecases.User.Interfaces;
 using ei_back.Domain.Base;
 using ei_back.Domain.Base.Interfaces;
+using ei_back.Domain.Role;
+using ei_back.Domain.Role.Interfaces;
 using ei_back.Domain.User;
 using ei_back.Domain.User.Interfaces;
 using ei_back.Infrastructure.Context;
@@ -96,9 +100,9 @@ builder.Services.AddInfrastructureSwagger();
 
 //Database
 var connection = builder.Configuration["PostgresConnection:PostgresConnectionString"];
-builder.Services.AddDbContext<ei_back.Infrastructure.Context.AppContext>(options => options.UseNpgsql(
+builder.Services.AddDbContext<ei_back.Infrastructure.Context.EIContext>(options => options.UseNpgsql(
     connection, 
-    assembly => assembly.MigrationsAssembly(typeof(ei_back.Infrastructure.Context.AppContext).Assembly.FullName))
+    assembly => assembly.MigrationsAssembly(typeof(ei_back.Infrastructure.Context.EIContext).Assembly.FullName))
 );
 
 //HealthChecks
@@ -124,6 +128,12 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ICreateUserUseCase,  CreateUserUseCase>();
 builder.Services.AddScoped<IGetUserUseCase, GetUserUseCase>();
 builder.Services.AddScoped<ISignInUseCase, SigninUseCase>();
+//Role
+builder.Services.AddScoped<IRoleRepository, RoleRepository>();
+builder.Services.AddScoped<IRoleService, RoleService>();
+builder.Services.AddScoped<IApplyRolesUseCase, ApplyRolesUseCase>();
+builder.Services.AddScoped<ICreateRoleUseCase, CreateRoleUseCase>();
+builder.Services.AddScoped<IGetAllRoleUseCase, GetAllRoleUseCase>();
 
 
 
@@ -155,6 +165,7 @@ app.UseHttpsRedirection();
 
 app.UseCors();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

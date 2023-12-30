@@ -7,12 +7,12 @@ namespace ei_back.Domain.Base
 {
     public class GenericRepository<T> : IRepository<T> where T : BaseEntity
     {
-        protected Infrastructure.Context.AppContext _context;
+        protected Infrastructure.Context.EIContext _context;
 
         //Pass the dataset dinamically
         private DbSet<T> _dbSet;
 
-        public GenericRepository(Infrastructure.Context.AppContext context)
+        public GenericRepository(Infrastructure.Context.EIContext context)
         {
             _context = context;
             _dbSet = _context.Set<T>();
