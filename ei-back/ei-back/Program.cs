@@ -1,3 +1,4 @@
+using ei_back.Application.Hubs;
 using ei_back.Application.Usecases.Role;
 using ei_back.Application.Usecases.Role.Interfaces;
 using ei_back.Application.Usecases.User;
@@ -73,6 +74,20 @@ builder.Services.AddAuthentication(options =>
         ValidAudience = tokenConfigurations.Audience,
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenConfigurations.Secret))
     };
+    options.Events = new JwtBearerEvents
+    {
+        OnMessageReceived = context =>
+        {
+            var accessToken = context.Request.Query["access_token"];
+            var path = context.HttpContext.Request.Path;
+            if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/hubs"))
+            {
+                context.Token = accessToken;
+                //context.HttpContext.Request.Headers.Add("Authorization", "Bearer " + accessToken);
+            }
+            return Task.CompletedTask;
+        }
+    };
 });
 
 //Token Configurations -> Authorizate
@@ -114,6 +129,9 @@ builder.Services.AddHealthChecksUI()
 
 //AutoMapper
 builder.Services.AddAutoMapper(typeof(MappingsProfile));
+
+//SignalR
+builder.Services.AddSignalR();
 
 
 //Apply the Dependecy Injection here!
@@ -157,6 +175,9 @@ app.UseHealthChecksUI(options =>
 {
     options.UIPath = "/healthDashboard";
 });
+
+//Map Web Socket
+app.MapHub<ExampleHub>("/hubs");
 
 //Exception Handler
 app.UseExceptionHandler(_ => { });
