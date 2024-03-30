@@ -1,22 +1,52 @@
+using ei_back.Application.Hubs;
+using ei_back.Application.Usecases.Role;
+using ei_back.Application.Usecases.Role.Interfaces;
 using ei_back.Application.Usecases.User;
 using ei_back.Application.Usecases.User.Interfaces;
 using ei_back.Domain.Base;
 using ei_back.Domain.Base.Interfaces;
+using ei_back.Domain.Role;
+using ei_back.Domain.Role.Interfaces;
 using ei_back.Domain.User;
 using ei_back.Domain.User.Interfaces;
 using ei_back.Infrastructure.Context;
 using ei_back.Infrastructure.Context.Interfaces;
+using ei_back.Infrastructure.Exceptions;
+using ei_back.Infrastructure.Mappings;
+using ei_back.Infrastructure.Swagger;
 using ei_back.Infrastructure.Token;
+using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
+using System.Reflection;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+//Logs
+builder.Logging.ClearProviders();
+var logger = new LoggerConfiguration()
+    .MinimumLevel.Information()
+    .WriteTo.Console()
+    .WriteTo.File("Infrastructure/Logs/logs.txt", rollingInterval: RollingInterval.Day)
+    .CreateLogger();
+
+builder.Logging.ClearProviders();
+builder.Logging.AddSerilog(logger);
+
+//Enviroment
+builder.Configuration.AddEnvironmentVariables()
+    .AddUserSecrets(Assembly.GetExecutingAssembly(), true);
+
+//Exception Handler
+builder.Services.AddExceptionHandler<AppExceptionHandler>();
 
 //Token Configurations
 var tokenConfigurations = new TokenConfiguration();
@@ -44,6 +74,20 @@ builder.Services.AddAuthentication(options =>
         ValidAudience = tokenConfigurations.Audience,
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenConfigurations.Secret))
     };
+    options.Events = new JwtBearerEvents
+    {
+        OnMessageReceived = context =>
+        {
+            var accessToken = context.Request.Query["access_token"];
+            var path = context.HttpContext.Request.Path;
+            if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/hubs"))
+            {
+                context.Token = accessToken;
+                //context.HttpContext.Request.Headers.Add("Authorization", "Bearer " + accessToken);
+            }
+            return Task.CompletedTask;
+        }
+    };
 });
 
 //Token Configurations -> Authorizate
@@ -55,7 +99,7 @@ builder.Services.AddAuthorization(auth =>
         );
 });
 
-
+//Cors
 builder.Services.AddCors( options => options.AddDefaultPolicy(builder =>
 {
     builder.AllowAnyOrigin()
@@ -63,21 +107,35 @@ builder.Services.AddCors( options => options.AddDefaultPolicy(builder =>
         .AllowAnyHeader();
 }));
 
-
+//Native
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddInfrastructureSwagger();
 
-
+//Database
 var connection = builder.Configuration["PostgresConnection:PostgresConnectionString"];
-builder.Services.AddDbContext<ei_back.Infrastructure.Context.AppContext>(options => options.UseNpgsql(
+builder.Services.AddDbContext<ei_back.Infrastructure.Context.EIContext>(options => options.UseNpgsql(
     connection, 
-    assembly => assembly.MigrationsAssembly(typeof(ei_back.Infrastructure.Context.AppContext).Assembly.FullName))
+    assembly => assembly.MigrationsAssembly(typeof(ei_back.Infrastructure.Context.EIContext).Assembly.FullName))
 );
+
+//HealthChecks
+builder.Services.AddHealthChecks()
+    .AddNpgSql(connection, name: "Postgres Check", tags: new string[] { "db", "data" });
+
+builder.Services.AddHealthChecksUI()
+    .AddInMemoryStorage();
+
+//AutoMapper
+builder.Services.AddAutoMapper(typeof(MappingsProfile));
+
+//SignalR
+builder.Services.AddSignalR();
 
 
 //Apply the Dependecy Injection here!
+//Base
 builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 //User
@@ -86,7 +144,14 @@ builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ICreateUserUseCase,  CreateUserUseCase>();
+builder.Services.AddScoped<IGetUserUseCase, GetUserUseCase>();
 builder.Services.AddScoped<ISignInUseCase, SigninUseCase>();
+//Role
+builder.Services.AddScoped<IRoleRepository, RoleRepository>();
+builder.Services.AddScoped<IRoleService, RoleService>();
+builder.Services.AddScoped<IApplyRolesUseCase, ApplyRolesUseCase>();
+builder.Services.AddScoped<ICreateRoleUseCase, CreateRoleUseCase>();
+builder.Services.AddScoped<IGetAllRoleUseCase, GetAllRoleUseCase>();
 
 
 
@@ -99,10 +164,29 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+//Health Check
+app.UseHealthChecks("/health", new HealthCheckOptions()
+{
+    Predicate = _ => true,
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+});
+
+app.UseHealthChecksUI(options =>
+{
+    options.UIPath = "/healthDashboard";
+});
+
+//Map Web Socket
+app.MapHub<ExampleHub>("/hubs");
+
+//Exception Handler
+app.UseExceptionHandler(_ => { });
+
 app.UseHttpsRedirection();
 
 app.UseCors();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

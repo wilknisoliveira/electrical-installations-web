@@ -38,6 +38,14 @@ namespace ei_back.Domain.User
                 new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName)
             };
 
+            if (user.Roles != null)
+            {
+                foreach (var role in user.Roles)
+                {
+                    claims.Add(new Claim(ClaimTypes.Role, role.Name.ToString()));
+                }
+            }
+
             var accessToken = _tokenService.GenerateAccessToken(claims);
             var refreshToken = _tokenService.GenerateRefreshToken();
 

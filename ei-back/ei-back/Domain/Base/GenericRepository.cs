@@ -1,16 +1,18 @@
 ﻿using ei_back.Domain.Base.Interfaces;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using System.Xml.Linq;
 
 namespace ei_back.Domain.Base
 {
     public class GenericRepository<T> : IRepository<T> where T : BaseEntity
     {
-        protected Infrastructure.Context.AppContext _context;
+        protected Infrastructure.Context.EIContext _context;
 
         //Pass the dataset dinamically
         private DbSet<T> _dbSet;
 
-        public GenericRepository(Infrastructure.Context.AppContext context)
+        public GenericRepository(Infrastructure.Context.EIContext context)
         {
             _context = context;
             _dbSet = _context.Set<T>();
@@ -60,6 +62,83 @@ namespace ei_back.Domain.Base
         public virtual async Task<T> FindByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
             return await _dbSet.SingleOrDefaultAsync(g => g.Id.Equals(id), cancellationToken);
+        }
+
+        public List<T> FindWithPagedSearch(
+            string sort,
+            int size,
+            int page,
+            int offset,
+            string name,
+            string column,
+            string table)
+        {
+            string query = $@"SELECT * FROM {table} t WHERE 1 = 1";
+            if (!string.IsNullOrWhiteSpace(name)) query = query + $" AND t.{column} ILIKE '%{name}%' ";
+            query += $" ORDER BY t.{column} {sort} LIMIT {size} OFFSET {offset} ";
+
+            return _dbSet.FromSqlRaw<T>(query).ToList();
+        }
+
+        public virtual async Task<List<T>> FindWithPagedSearchAsync(
+            string sort,
+            int size,
+            int page,
+            int offset,
+            string name,
+            string column,
+            string table,
+            CancellationToken cancellationToken = default)
+        {
+            string query = $@"SELECT * FROM {table} t WHERE 1 = 1";
+            if (!string.IsNullOrWhiteSpace(name)) query = query + $" AND t.{column} ILIKE '%{name}%' ";
+            query += $" ORDER BY t.{column} {sort} LIMIT {size} OFFSET {offset} ";
+
+            return await _dbSet.FromSqlRaw<T>(query).ToListAsync();
+        }
+
+        public int GetCount(
+            string name,
+            string column,
+            string table)
+        {
+            string query = $@"SELECT COUNT(*) FROM {table} t WHERE 1 = 1";
+            if (!string.IsNullOrWhiteSpace(name)) query = query + $" AND t.{column} ILIKE '%{name}%' ";
+
+            var result = "";
+            using (var connection = _context.Database.GetDbConnection())
+            {
+                connection.Open();
+                using (var command = connection.CreateCommand())
+                {
+                    command.CommandText = query;
+                    result = command.ExecuteScalar().ToString();
+                }
+            }
+            return int.Parse(result);
+        }
+
+        public virtual async Task<int> GetCountAsync(
+            string name,
+            string column,
+            string table,
+            CancellationToken cancellationToken = default)
+        {
+            string query = $@"SELECT COUNT(*) FROM {table} t WHERE 1 = 1";
+            if (!string.IsNullOrWhiteSpace(name)) query = query + $" AND t.{column} ILIKE '%{name}%' ";
+
+            var result = "";
+            using (var connection = _context.Database.GetDbConnection())
+            {
+                connection.Open();
+                using (var command = connection.CreateCommand())
+                {
+                    command.CommandText = query;
+                    var response = await command.ExecuteScalarAsync();
+                    result = response.ToString();
+                }
+            }
+            return int.Parse(result);
         }
 
         public T Update(T item)

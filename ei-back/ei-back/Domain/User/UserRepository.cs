@@ -1,16 +1,17 @@
 ﻿using ei_back.Domain.Base;
 using ei_back.Domain.User.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace ei_back.Domain.User
 {
     public class UserRepository : GenericRepository<UserEntity>, IUserRepository
     {
 
-        public UserRepository(Infrastructure.Context.AppContext context) : base(context) { }
+        public UserRepository(Infrastructure.Context.EIContext context) : base(context) { }
 
         public UserEntity ValidateCredentials(string userName, string pass)
         {
-            return _context.Users.FirstOrDefault(u => u.UserName == userName && u.Password == pass);
+            return _context.Users.Include(u => u.Roles).FirstOrDefault(u => u.UserName == userName && u.Password == pass);
         }
 
         public UserEntity RefreshUserInfo(UserEntity user)
@@ -32,6 +33,13 @@ namespace ei_back.Domain.User
                 }
             }
             return result;
+        }
+
+        public async Task<UserEntity> GetUserAndRolesAsync(Guid userId, CancellationToken cancellationToken = default)
+        {
+            return await _context.Users
+                .Include(u => u.Roles)
+                .SingleOrDefaultAsync(u => u.Id.Equals(userId), cancellationToken);
         }
 
     }

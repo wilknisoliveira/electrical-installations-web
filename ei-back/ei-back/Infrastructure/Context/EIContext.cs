@@ -1,15 +1,17 @@
-﻿using ei_back.Domain.User;
+﻿using ei_back.Domain.Role;
+using ei_back.Domain.User;
 using Microsoft.EntityFrameworkCore;
 
 namespace ei_back.Infrastructure.Context
 {
-    public class AppContext : DbContext
+    public class EIContext : DbContext
     {
-        public AppContext() { }
+        public EIContext() { }
 
-        public AppContext(DbContextOptions<AppContext> options) : base(options) { }
+        public EIContext(DbContextOptions<EIContext> options) : base(options) { }
 
         public DbSet<UserEntity> Users { get; set; }
+        public DbSet<RoleEntity> Roles { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

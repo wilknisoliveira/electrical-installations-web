@@ -6,5 +6,6 @@ namespace ei_back.Domain.User.Interfaces
     {
         UserEntity ValidateCredentials(string userName, string pass);
         UserEntity RefreshUserInfo(UserEntity user);
+        Task<UserEntity> GetUserAndRolesAsync(Guid userId, CancellationToken cancellationToken = default);
     }
 }
