@@ -18,6 +18,18 @@ namespace ei_back.Infrastructure.Context
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
+
+            List<RoleEntity> roles =
+            [
+                new RoleEntity("Admin", ""),
+                new RoleEntity("CommonUser", "")
+            ];
+
+            roles.ForEach(role => {
+                role.Id = Guid.NewGuid();
+                role.CreatedAt = DateTime.Now;
+            });
+            modelBuilder.Entity<RoleEntity>().HasData(roles);
         }
     }
 }
