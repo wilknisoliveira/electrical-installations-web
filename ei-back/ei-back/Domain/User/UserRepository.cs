@@ -1,5 +1,6 @@
 ﻿using ei_back.Domain.Base;
 using ei_back.Domain.User.Interfaces;
+using ei_back.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 
 namespace ei_back.Domain.User
@@ -7,7 +8,7 @@ namespace ei_back.Domain.User
     public class UserRepository : GenericRepository<UserEntity>, IUserRepository
     {
 
-        public UserRepository(Infrastructure.Context.EIContext context) : base(context) { }
+        public UserRepository(EIContext context) : base(context) { }
 
         public UserEntity ValidateCredentials(string userName, string pass)
         {

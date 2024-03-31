@@ -115,9 +115,9 @@ builder.Services.AddInfrastructureSwagger();
 
 //Database
 var connection = builder.Configuration["PostgresConnection:PostgresConnectionString"];
-builder.Services.AddDbContext<ei_back.Infrastructure.Context.EIContext>(options => options.UseNpgsql(
+builder.Services.AddDbContext<EIContext>(options => options.UseNpgsql(
     connection, 
-    assembly => assembly.MigrationsAssembly(typeof(ei_back.Infrastructure.Context.EIContext).Assembly.FullName))
+    assembly => assembly.MigrationsAssembly(typeof(EIContext).Assembly.FullName))
 );
 
 //HealthChecks

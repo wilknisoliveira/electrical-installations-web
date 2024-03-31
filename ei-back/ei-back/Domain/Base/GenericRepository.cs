@@ -1,18 +1,17 @@
 ﻿using ei_back.Domain.Base.Interfaces;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+using ei_back.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
-using System.Xml.Linq;
 
 namespace ei_back.Domain.Base
 {
     public class GenericRepository<T> : IRepository<T> where T : BaseEntity
     {
-        protected Infrastructure.Context.EIContext _context;
+        protected EIContext _context;
 
         //Pass the dataset dinamically
         private DbSet<T> _dbSet;
 
-        public GenericRepository(Infrastructure.Context.EIContext context)
+        public GenericRepository(EIContext context)
         {
             _context = context;
             _dbSet = _context.Set<T>();
