@@ -22,16 +22,16 @@ using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
+using System.Globalization;
 using System.Reflection;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
 
 //Logs
 builder.Logging.ClearProviders();
@@ -136,6 +136,23 @@ builder.Services.AddAutoMapper(typeof(MappingsProfile));
 //SignalR
 builder.Services.AddSignalR();
 
+//Resources
+builder.Services.AddLocalization(options =>
+{
+    options.ResourcesPath = "Infrastructure/Resources";
+});
+
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    var supportedCultures = new[]
+    {
+        new CultureInfo("en-US")
+    };
+
+    options.DefaultRequestCulture = new RequestCulture("en-US");
+    options.SupportedCultures = supportedCultures;
+});
+
 
 //Apply the Dependecy Injection here!
 //ExternalApi
@@ -196,5 +213,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseRequestLocalization();
 
 app.Run();

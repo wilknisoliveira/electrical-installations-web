@@ -2,6 +2,7 @@
 using ei_back.Application.Usecases.User.Interfaces;
 using ei_back.Infrastructure.Context.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 
 namespace ei_back.Application.Api.User
 {
@@ -11,11 +12,13 @@ namespace ei_back.Application.Api.User
     {
         private readonly ISignInUseCase _signInUseCase;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IStringLocalizer<AuthController> _stringLocalizer;
 
-        public AuthController(ISignInUseCase signInUseCase, IUnitOfWork unitOfWork)
+        public AuthController(ISignInUseCase signInUseCase, IUnitOfWork unitOfWork, IStringLocalizer<AuthController> stringLocalizer)
         {
             _signInUseCase = signInUseCase;
             _unitOfWork = unitOfWork;
+            _stringLocalizer = stringLocalizer;
         }
 
         [HttpPost]
@@ -24,7 +27,7 @@ namespace ei_back.Application.Api.User
         [Route("signin")]
         public IActionResult Signin([FromBody] LoginDtoRequest loginDtoRequest)
         {
-            if (loginDtoRequest == null) return BadRequest("Invalid client request");
+            if (loginDtoRequest == null) return BadRequest(_stringLocalizer["AuthInvalidRequest"].Value);
 
             var token = _signInUseCase.Handler(loginDtoRequest);
             _unitOfWork.Commit();

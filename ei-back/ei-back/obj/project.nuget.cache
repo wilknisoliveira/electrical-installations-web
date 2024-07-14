@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "F8L2pfYkbsMGtstHUuBTrVSgHjrvvMPs7FEMRJF7Wk3ozN77Qafuj4MJvnjl115dWEkYzQ77M9oA4ksjSts1TQ==",
+  "dgSpecHash": "3aFrhnhUrUJuqbGcyCw7fHk35RxMK2Qr2p81JVa+hgM5lcBgx7CmgWqnN2DDd33/HA9zT57cYt/7Fvi5sn0ftA==",
   "success": true,
   "projectFilePath": "C:\\Users\\wilknis.oliveira\\Code\\Projects\\electrical-installations\\electrical-installations-web\\ei-back\\ei-back\\ei-back.csproj",
   "expectedPackageFiles": [
@@ -41,7 +41,7 @@
     "C:\\Users\\wilknis.oliveira\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\8.0.0\\microsoft.extensions.configuration.abstractions.8.0.0.nupkg.sha512",
     "C:\\Users\\wilknis.oliveira\\.nuget\\packages\\microsoft.extensions.configuration.binder\\8.0.0\\microsoft.extensions.configuration.binder.8.0.0.nupkg.sha512",
     "C:\\Users\\wilknis.oliveira\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\8.0.0\\microsoft.extensions.dependencyinjection.8.0.0.nupkg.sha512",
-    "C:\\Users\\wilknis.oliveira\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\8.0.0\\microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512",
+    "C:\\Users\\wilknis.oliveira\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\8.0.1\\microsoft.extensions.dependencyinjection.abstractions.8.0.1.nupkg.sha512",
     "C:\\Users\\wilknis.oliveira\\.nuget\\packages\\microsoft.extensions.dependencymodel\\8.0.0\\microsoft.extensions.dependencymodel.8.0.0.nupkg.sha512",
     "C:\\Users\\wilknis.oliveira\\.nuget\\packages\\microsoft.extensions.diagnostics\\8.0.0\\microsoft.extensions.diagnostics.8.0.0.nupkg.sha512",
     "C:\\Users\\wilknis.oliveira\\.nuget\\packages\\microsoft.extensions.diagnostics.abstractions\\8.0.0\\microsoft.extensions.diagnostics.abstractions.8.0.0.nupkg.sha512",
@@ -51,8 +51,10 @@
     "C:\\Users\\wilknis.oliveira\\.nuget\\packages\\microsoft.extensions.fileproviders.abstractions\\8.0.0\\microsoft.extensions.fileproviders.abstractions.8.0.0.nupkg.sha512",
     "C:\\Users\\wilknis.oliveira\\.nuget\\packages\\microsoft.extensions.hosting.abstractions\\8.0.0\\microsoft.extensions.hosting.abstractions.8.0.0.nupkg.sha512",
     "C:\\Users\\wilknis.oliveira\\.nuget\\packages\\microsoft.extensions.http\\8.0.0\\microsoft.extensions.http.8.0.0.nupkg.sha512",
+    "C:\\Users\\wilknis.oliveira\\.nuget\\packages\\microsoft.extensions.localization\\8.0.7\\microsoft.extensions.localization.8.0.7.nupkg.sha512",
+    "C:\\Users\\wilknis.oliveira\\.nuget\\packages\\microsoft.extensions.localization.abstractions\\8.0.7\\microsoft.extensions.localization.abstractions.8.0.7.nupkg.sha512",
     "C:\\Users\\wilknis.oliveira\\.nuget\\packages\\microsoft.extensions.logging\\8.0.0\\microsoft.extensions.logging.8.0.0.nupkg.sha512",
-    "C:\\Users\\wilknis.oliveira\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\8.0.0\\microsoft.extensions.logging.abstractions.8.0.0.nupkg.sha512",
+    "C:\\Users\\wilknis.oliveira\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\8.0.1\\microsoft.extensions.logging.abstractions.8.0.1.nupkg.sha512",
     "C:\\Users\\wilknis.oliveira\\.nuget\\packages\\microsoft.extensions.objectpool\\7.0.0\\microsoft.extensions.objectpool.7.0.0.nupkg.sha512",
     "C:\\Users\\wilknis.oliveira\\.nuget\\packages\\microsoft.extensions.options\\8.0.2\\microsoft.extensions.options.8.0.2.nupkg.sha512",
     "C:\\Users\\wilknis.oliveira\\.nuget\\packages\\microsoft.extensions.options.configurationextensions\\8.0.0\\microsoft.extensions.options.configurationextensions.8.0.0.nupkg.sha512",
