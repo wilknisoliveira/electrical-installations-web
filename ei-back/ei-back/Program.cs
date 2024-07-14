@@ -13,6 +13,9 @@ using ei_back.Infrastructure.Context;
 using ei_back.Infrastructure.Context.Interfaces;
 using ei_back.Infrastructure.Exceptions;
 using ei_back.Infrastructure.Mappings;
+using ei_back.Infrastructure.Services;
+using ei_back.Infrastructure.Services.Client.FunTranslateApiClient;
+using ei_back.Infrastructure.Services.Interfaces;
 using ei_back.Infrastructure.Swagger;
 using ei_back.Infrastructure.Token;
 using HealthChecks.UI.Client;
@@ -135,6 +138,9 @@ builder.Services.AddSignalR();
 
 
 //Apply the Dependecy Injection here!
+//ExternalApi
+builder.Services.AddScoped<IFunTranslateApiHttpService, FunTranslateApiHttpService>();
+builder.Services.AddScoped<IFunTranslateApiClient, FunTranslateApiClient>();   
 //Base
 builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
