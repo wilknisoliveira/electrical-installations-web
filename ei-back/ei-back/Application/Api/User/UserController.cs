@@ -29,7 +29,8 @@ namespace ei_back.Application.Api.User
         }
 
         [HttpPost]
-        [ProducesResponseType(200, Type = typeof(UserDtoResponse))]
+        [ProducesResponseType(typeof(UserDtoResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([FromBody] UserDtoRequest userDtoRequest, CancellationToken cancellationToken = default)
         {
@@ -41,7 +42,8 @@ namespace ei_back.Application.Api.User
         }
 
         [HttpGet("{sortDirection}/{pageSize}/{page}")]
-        [ProducesResponseType(200, Type = typeof(PagedSearchDto<UserGetDtoResponse>))]
+        [ProducesResponseType(typeof(PagedSearchDto<UserGetDtoResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Authorize(Roles = "Admin, CommonUser")]
         public async Task<IActionResult> Get(
             [FromQuery] string? name,

@@ -31,7 +31,8 @@ namespace ei_back.Application.Api.Role
         }
 
         [HttpPost]
-        [ProducesResponseType(200, Type = typeof(RoleDto))]
+        [ProducesResponseType(typeof(RoleDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([FromBody] RoleDto roleDtoRequest, CancellationToken cancellationToken = default)
         {
@@ -43,7 +44,7 @@ namespace ei_back.Application.Api.Role
         }
 
         [HttpGet]
-        [ProducesResponseType(200, Type = typeof(List<RoleDtoResponse>))]
+        [ProducesResponseType(typeof(RoleDtoResponse), StatusCodes.Status200OK)]
         [Authorize(Roles = "Admin, CommonUser")]
         public async Task<IActionResult> GetAll()
         {
@@ -51,7 +52,8 @@ namespace ei_back.Application.Api.Role
         }
 
         [HttpPut("apply")]
-        [ProducesResponseType(200, Type = typeof(ApplyRoleDtoResponse))]
+        [ProducesResponseType(typeof(ApplyRoleDtoResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ApplyRoles(
             [FromBody] ApplyRoleDtoRequest applyRoleDtoRequest,

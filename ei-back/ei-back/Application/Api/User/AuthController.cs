@@ -19,6 +19,8 @@ namespace ei_back.Application.Api.User
         }
 
         [HttpPost]
+        [ProducesResponseType(typeof(TokenDtoReponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Route("signin")]
         public IActionResult Signin([FromBody] LoginDtoRequest loginDtoRequest)
         {
