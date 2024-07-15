@@ -6,6 +6,14 @@ namespace ei_back.Domain.User
 {
     public class UserEntity : BaseEntity
     {
+        public UserEntity(string userName, string fullName, string email, string password)
+        {
+            UserName = userName;
+            FullName = fullName;
+            Email = email;
+            Password = password;
+        }
+
         public string UserName { get; set; }
         public string FullName { get; set; }
         public string Email { get; set; }
