@@ -169,6 +169,7 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ICreateUserUseCase,  CreateUserUseCase>();
 builder.Services.AddScoped<IGetUserUseCase, GetUserUseCase>();
 builder.Services.AddScoped<ISignInUseCase, SigninUseCase>();
+builder.Services.AddScoped<IChangePasswordUseCase, ChangePasswordUseCase>();
 //Role
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<IRoleService, RoleService>();
