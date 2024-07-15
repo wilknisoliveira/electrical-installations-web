@@ -38,6 +38,8 @@ namespace ei_back.Application.Api.User
             var userDtoResponse = await _createUserUseCase.Handler(userDtoRequest);
             await _unitOfWork.CommitAsync(cancellationToken);
 
+            _logger.LogInformation("API: New user created - " + userDtoRequest.UserName);
+
             return Ok(userDtoResponse);
         }
 
@@ -51,6 +53,8 @@ namespace ei_back.Application.Api.User
             int pageSize,
             int page)
         {
+            _logger.LogInformation("API: Getting paged user list");
+
             return Ok(await _getUserUseCase.Handler(name, sortDirection, pageSize, page));
         }
     }

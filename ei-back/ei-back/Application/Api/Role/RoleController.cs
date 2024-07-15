@@ -1,4 +1,5 @@
-﻿using ei_back.Application.Api.Role.Dtos;
+﻿using ei_back.Application.Api.FunTranslate;
+using ei_back.Application.Api.Role.Dtos;
 using ei_back.Application.Usecases.Role.Interfaces;
 using ei_back.Infrastructure.Context.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -40,6 +41,8 @@ namespace ei_back.Application.Api.Role
             var response = await _createRoleUseCase.Handler(roleDtoRequest);
             await _unitOfWork.CommitAsync(cancellationToken);
 
+            _logger.LogInformation("API: New role created");
+
             return Ok(response);
         }
 
@@ -48,6 +51,8 @@ namespace ei_back.Application.Api.Role
         [Authorize(Roles = "Admin, CommonUser")]
         public async Task<IActionResult> GetAll()
         {
+            _logger.LogInformation("API: Getting all the roles");
+
             return Ok(await _getAllRoleUseCase.Handler());
         }
 
@@ -62,6 +67,8 @@ namespace ei_back.Application.Api.Role
             if (applyRoleDtoRequest == null) return BadRequest();
             var response = await _applyRolesUseCase.Handler(applyRoleDtoRequest);
             await _unitOfWork.CommitAsync(cancellationToken);
+
+            _logger.LogInformation("API: Roles applied to user");
 
             return Ok(response);
         }

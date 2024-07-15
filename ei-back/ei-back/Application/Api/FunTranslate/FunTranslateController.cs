@@ -11,10 +11,12 @@ namespace ei_back.Application.Api.FunTranslate
     public class FunTranslateController : ControllerBase
     {
         private readonly IFunTranslateApiHttpService _externalApiHttpService;
+        private readonly ILogger<FunTranslateController> _logger;
 
-        public FunTranslateController(IFunTranslateApiHttpService externalApiHttpService)
+        public FunTranslateController(IFunTranslateApiHttpService externalApiHttpService, ILogger<FunTranslateController> logger)
         {
             _externalApiHttpService = externalApiHttpService;
+            _logger = logger;
         }
 
         [HttpPost]
@@ -24,6 +26,9 @@ namespace ei_back.Application.Api.FunTranslate
         public async Task<IActionResult> Get([FromBody] string textRequest, CancellationToken cancellationToken = default)
         {
             if (textRequest.IsNullOrEmpty()) return BadRequest();
+
+            _logger.LogInformation("API: Requesting translation to FunTranslate.");
+
             return Ok(await _externalApiHttpService.GetValyrianTranslate(textRequest));
         }
     }
