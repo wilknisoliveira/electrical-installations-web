@@ -16,7 +16,7 @@ namespace ei_back.Infrastructure.Exceptions
             _logger.LogError(exception, $"Something went wrong: {exception.GetType().Name}. Message: {exception.Message}. StackTrace: {exception.StackTrace}");
             
             httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
-            await httpContext.Response.WriteAsync("Something went wrong", cancellationToken);
+            await httpContext.Response.WriteAsync($"Something went wrong: {exception.GetType().Name}. Message: {exception.Message}.", cancellationToken);
 
             return true;
         }

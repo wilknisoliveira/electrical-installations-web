@@ -53,7 +53,7 @@ namespace ei_back.Application.Api.User
             return Ok(token);
         }
 
-        [HttpPut]
+        [HttpPatch]
         [ProducesResponseType(typeof(UserGetDtoResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Authorize(Roles = "Admin, CommonUser")]
