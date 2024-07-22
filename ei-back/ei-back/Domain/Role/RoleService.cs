@@ -1,5 +1,6 @@
 ﻿using ei_back.Application.Api.User.Dtos;
 using ei_back.Domain.Role.Interfaces;
+using ei_back.Infrastructure.Exceptions.ExceptionTypes;
 
 namespace ei_back.Domain.Role
 {
@@ -30,9 +31,7 @@ namespace ei_back.Domain.Role
             var selectedRoles = roles.Where(r => rolesList.Contains(r.Name)).ToList();
 
             if (selectedRoles.Count != rolesList.Count)
-            {
-                throw new Exception("Some of the roles are incorrect");
-            }
+                throw new BadRequestException("Some of the roles are incorrect");
 
             return selectedRoles;
         }
